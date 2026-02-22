@@ -7,14 +7,95 @@
 	<title>tables.md</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="{markserv}templates/markserv.css">
-	<link rel="stylesheet" href="{markserv}templates/highlight-js-github-gist.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">
+	<link rel="stylesheet" href="{markserv}icons/icons.css">
 	<script type="text/javascript" id="MathJax-script" async
 	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
         </script>
+	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			mermaid.initialize({ 
+				startOnLoad: true,
+				theme: 'base',
+				themeVariables: {
+					fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',
+					primaryColor: '#373B41',
+					primaryTextColor: '#E6E6E6',
+					primaryBorderColor: '#676B79',
+					lineColor: '#6FC1FF',
+					secondaryColor: '#3E4250',
+					tertiaryColor: '#242526',
+					mainBkg: '#292A2B',
+					nodeBorder: '#676B79',
+					clusterBkg: '#373B41',
+					clusterBorder: '#676B79',
+					defaultLinkColor: '#6FC1FF',
+					titleColor: '#E6E6E6',
+					edgeLabelBackground: '#373B41'
+				},
+				flowchart: {
+					curve: 'basis'
+				}
+			});
+			const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
+			mermaidBlocks.forEach(block => {
+				const pre = block.parentNode;
+				const div = document.createElement('div');
+				div.className = 'mermaid';
+				div.textContent = block.textContent;
+				pre.parentNode.replaceChild(div, pre);
+			});
+		});
+	</script>
 </head>
 <body>
-<article class="markdown-body">
-<p>Colons can be used to align columns.</p>
+<div class="layout-container">
+	<aside class="sidebar">
+		<ul class="nav-tree">
+	<li><details open><summary class="folder"><span>tests</span></summary>
+<ul class="nav-tree">
+	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>
+<ul class="nav-tree">
+	<li class="isfile "><a href="/tests/markserv-cli-readme/README.md">README.md</a></li>
+</ul>
+	</details></li>
+	<li><details ><summary class="folder"><span>templates</span></summary>
+<ul class="nav-tree">
+	<li><details ><summary class="folder"><span>subdir</span></summary>
+<ul class="nav-tree">
+	<li class="isfile "><a href="/tests/templates/subdir/sub-article.md">sub-article.md</a></li>
+</ul>
+	</details></li>
+	<li class="isfile "><a href="/tests/templates/article.md">article.md</a></li>
+	<li class="isfile "><a href="/tests/templates/footer.md">footer.md</a></li>
+	<li class="isfile "><a href="/tests/templates/header.md">header.md</a></li>
+</ul>
+	</details></li>
+	<li><details ><summary class="folder"><span>testdir</span></summary>
+<ul class="nav-tree">
+	<li class="isfile "><a href="/tests/testdir/file1.md">file1.md</a></li>
+</ul>
+	</details></li>
+	<li class="isfile "><a href="/tests/Linked-Markdown-Example.md">Linked-Markdown-Example.md</a></li>
+	<li class="isfile "><a href="/tests/emojis.md">emojis.md</a></li>
+	<li class="isfile "><a href="/tests/implant-file.render-fixture.md">implant-file.render-fixture.md</a></li>
+	<li class="isfile "><a href="/tests/links.md">links.md</a></li>
+	<li class="isfile "><a href="/tests/mathjax.md">mathjax.md</a></li>
+	<li class="isfile "><a href="/tests/slugify-header-links.md">slugify-header-links.md</a></li>
+	<li class="isfile "><a href="/tests/syntax-highlighting.md">syntax-highlighting.md</a></li>
+	<li class="isfile current"><a href="/tests/tables.md">tables.md</a></li>
+	<li class="isfile "><a href="/tests/toc.md">toc.md</a></li>
+	<li class="isfile "><a href="/tests/测试.md">测试.md</a></li>
+</ul>
+	</details></li>
+	<li class="isfile "><a href="/CHANGELOG.md">CHANGELOG.md</a></li>
+	<li class="isfile "><a href="/README.md">README.md</a></li>
+</ul>
+
+	</aside>
+	<article class="markdown-body">
+	<p>Colons can be used to align columns.</p>
 <table>
 <thead>
 <tr>
@@ -66,7 +147,8 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 
-<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 58960</sup></footer>
-</article>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 38931</sup></footer>
+	</article>
+</div>
 </body>
 </html>

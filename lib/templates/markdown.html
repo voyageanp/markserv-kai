@@ -7,15 +7,59 @@
 	<title>{{title}}</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="{markserv}templates/markserv.css">
-	<link rel="stylesheet" href="{markserv}templates/highlight-js-github-gist.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">
+	<link rel="stylesheet" href="{markserv}icons/icons.css">
 	<script type="text/javascript" id="MathJax-script" async
 	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
         </script>
+	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			mermaid.initialize({ 
+				startOnLoad: true,
+				theme: 'base',
+				themeVariables: {
+					fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',
+					primaryColor: '#373B41',
+					primaryTextColor: '#E6E6E6',
+					primaryBorderColor: '#676B79',
+					lineColor: '#6FC1FF',
+					secondaryColor: '#3E4250',
+					tertiaryColor: '#242526',
+					mainBkg: '#292A2B',
+					nodeBorder: '#676B79',
+					clusterBkg: '#373B41',
+					clusterBorder: '#676B79',
+					defaultLinkColor: '#6FC1FF',
+					titleColor: '#E6E6E6',
+					edgeLabelBackground: '#373B41'
+				},
+				flowchart: {
+					curve: 'basis'
+				}
+			});
+			const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
+			mermaidBlocks.forEach(block => {
+				const pre = block.parentNode;
+				const div = document.createElement('div');
+				div.className = 'mermaid';
+				div.textContent = block.textContent;
+				pre.parentNode.replaceChild(div, pre);
+			});
+		});
+	</script>
 </head>
 <body>
-<article class="markdown-body">
-{{{content}}}
-<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: {{pid}}</sup></footer>
-</article>
+<div class="layout-container">
+	{{#if hasNavTree}}
+	<aside class="sidebar">
+		{{{navTree}}}
+	</aside>
+	{{/if}}
+	<article class="markdown-body">
+	{{{content}}}
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: {{pid}}</sup></footer>
+	</article>
+</div>
 </body>
 </html>

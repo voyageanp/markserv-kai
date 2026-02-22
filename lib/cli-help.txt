@@ -9,3 +9,4 @@ Options
 	--silent, -i  Silent (false)
 	--address, -a  Serve on ip/address [address] (localhost)
 	--verbose, -v  Verbose output (false)
+	--show-all-dir  Show all directories even if they contain no markdown (false)

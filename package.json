@@ -107,16 +107,37 @@
     "husky": "^3.1.0",
     "nyc": "^15.0.0",
     "request": "^2.88.0",
-    "xo": "^0.25.3"
+    "xo": "^0.55.0"
   },
   "xo": {
-    "esnext": true,
-    "semicolon": false,
+    "indent": "tab",
+    "semicolon": true,
     "rules": {
-      "node/no-unpublished-bin": 2
+      "quotes": [
+        "error",
+        "double"
+      ],
+      "n/no-unpublished-bin": "off",
+      "unicorn/prefer-module": "off",
+      "unicorn/prefer-node-protocol": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "capitalized-comments": "off",
+      "comma-dangle": "off",
+      "camelcase": "off",
+      "object-curly-spacing": "off",
+      "arrow-parens": "off",
+      "operator-linebreak": "off",
+      "ava/assertion-arguments": "off",
+      "n/prefer-global/process": "off",
+      "unicorn/no-array-callback-reference": "off",
+      "no-bitwise": "off",
+      "import/extensions": "off",
+      "ava/no-unknown-modifiers": "off",
+      "max-params": "off",
+      "import/order": "off"
     }
   },
   "ava": {
-    "failfast": true
+    "failFast": true
   }
 }

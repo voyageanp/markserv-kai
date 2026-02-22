@@ -1,18 +1,18 @@
-import fs from 'fs'
-import path from 'path'
-import request from 'request'
-import test from 'ava'
-import getPort from 'get-port'
-import readme from '../lib/readme'
+import fs from "fs";
+import path from "path";
+import request from "request";
+import test from "ava";
+import getPort from "get-port";
+import readme from "../lib/readme";
 
-test.cb('start markserv via "readme" command', t => {
-	t.plan(3)
+test.cb("start markserv via \"readme\" command", t => {
+	t.plan(3);
 
 	const expected = String(
 		fs.readFileSync(
-			path.join(__dirname, 'markserv-cli.expected.html')
+			path.join(__dirname, "markserv-cli.expected.html")
 		)
-	)
+	);
 
 	getPort().then(port => {
 		const cliOpts = {
@@ -20,41 +20,41 @@ test.cb('start markserv via "readme" command', t => {
 			flags: {
 				port,
 				livereloadport: false,
-				address: 'localhost',
+				address: "localhost",
 				silent: true,
 				browser: false
 			}
-		}
+		};
 
 		const done = () => {
-			t.end()
-		}
+			t.end();
+		};
 
 		readme.run(cliOpts).then(service => {
 			const closeServer = () => {
-				service.httpServer.close(done)
-			}
+				service.httpServer.close(done);
+			};
 
 			const opts = {
 				url: service.launchUrl,
 				timeout: 1000 * 2
-			}
+			};
 
 			request(opts, (err, res, body) => {
 				if (err) {
-					t.fail(err)
-					closeServer()
+					t.fail(err);
+					closeServer();
 				}
 
-				t.true(body.includes(expected))
+				t.true(body.includes(expected));
 
-				t.is(res.statusCode, 200)
-				t.pass()
-				closeServer()
-			})
+				t.is(res.statusCode, 200);
+				t.pass();
+				closeServer();
+			});
 		}).catch(error => {
-			t.fail(error)
-			t.end()
-		})
-	})
-})
+			t.fail(error);
+			t.end();
+		});
+	});
+});
