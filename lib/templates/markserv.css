@@ -741,6 +741,32 @@ body .markdown-body {
   overflow-y: auto;
   box-sizing: border-box;
   max-width: calc(100% - 250px);
+  position: relative;
+}
+
+/* Menu Toggle Button (Visible only on mobile) */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 20px;
+  z-index: 1000;
+}
+
+/* Sidebar Overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
 }
 
 /* Override existing body widths for layout */
@@ -756,5 +782,33 @@ body .markdown-body {
 @media screen and (max-width: 1024px) {
   body {
     width: 100% !important;
+  }
+}
+
+/* Mobile specific styling */
+@media screen and (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Show hamburger menu */
+  }
+
+  body .markdown-body {
+    max-width: 100%;
+    padding: 15px; /* Less padding on mobile */
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Hide off-screen by default */
+    z-index: 999;
+    transition: left 0.3s ease-in-out;
+  }
+
+  .sidebar.open {
+    left: 0; /* Slide in */
+  }
+
+  .sidebar-overlay.open {
+    display: block; /* Show overlay */
   }
 }

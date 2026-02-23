@@ -42,9 +42,13 @@
   <body class="dir">
     <div class="layout-container">
       {{#if hasNavTree}}
-        <aside class="sidebar">{{{navTree}}}</aside>
+        <aside class="sidebar" id="sidebar">{{{navTree}}}</aside>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
       {{/if}}
       <article class="markdown-body">
+        {{#if hasNavTree}}
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
+        {{/if}}
         <h1 class="icon folder">
           {{#each breadcrumbs}}<a href="{{href}}">{{text}}</a>{{/each}}
         </h1>
@@ -59,5 +63,28 @@
         </footer>
       </article>
     </div>
+    {{#if hasNavTree}}
+    <script>
+      const menuToggle = document.getElementById('menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      
+      if (menuToggle && sidebar && sidebarOverlay) {
+        const toggleMenu = () => {
+          sidebar.classList.toggle('open');
+          sidebarOverlay.classList.toggle('open');
+        };
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+        // Close sidebar when clicking a link inside it on mobile
+        sidebar.addEventListener('click', (e) => {
+          if (e.target.tagName === 'A' && window.innerWidth <= 768) {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('open');
+          }
+        });
+      }
+    </script>
+    {{/if}}
   </body>
 </html>

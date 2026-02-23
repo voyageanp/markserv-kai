@@ -1,0 +1,620 @@
+
+> markserv@1.17.4 cover
+> nyc --reporter=lcov --reporter=html --reporter=text ava
+
+
+(node:68279) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68279) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68279) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68283) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68283) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68283) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+  ✔ emojis › emoji support
+  ✔ links › markdown tables
+(node:68281) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68281) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68281) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68280) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68280) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68280) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68278) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68278) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68278) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68289) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68289) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68289) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68282) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68282) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68282) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+  ✖ error-page-404 › start service and receive error page (404) 
+  ✖ dir › start service and get directory listing 
+  ✖ implant-file › start service and get text file 
+  ✔ implant-less › start service and get text file
+(node:68286) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68286) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68286) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68284) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68284) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68284) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68288) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68288) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68288) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+  ✖ service › start service and receive tables markdown 
+  ✖ tests/implant-file.test.js exited due to undefined
+  ✖ tests/implant-less.test.js exited due to undefined
+(node:68287) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68287) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68287) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68285) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68285) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68285) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+  ✔ markserv-cli-file-diff-dir › start markserv via "cli" command opening file in different dir with preceeding ./
+  ✔ markserv-cli-file-diff-dir › start markserv via "cli" command opening file in different dir
+  ✔ markserv-cli-readme › start markserv via "readme" command
+  ✔ markserv-cli-readme-dir-down › start markserv via "readme" command (184ms)
+  ✔ markserv-cli › start markserv via "readme" command (184ms)
+  ✔ markserv-cli-file › start markserv via "cli" command opening file in same dir (188ms)
+  ✔ markserv-cli-file › start markserv via "cli" command opening file in same dir with preceeding ./ (189ms)
+(node:68297) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68297) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68297) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+(node:68298) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/implant/package.json' of 'implant'. Please either fix that or report it to the module author
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:68298) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/balanced-pairs/package.json' of 'balanced-pairs'. Please either fix that or report it to the module author
+(node:68298) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/koheikawasaki/workspace/mine/markserv/node_modules/super-split/package.json' of 'super-split'. Please either fix that or report it to the module author
+
+  4 tests failed
+
+  error-page-404 › start service and receive error page (404)
+
+  /Users/koheikawasaki/workspace/mine/markserv/tests/error-page-404.test.js:60
+
+   59:                                                    
+   60:         t.is(bodyNonVariable, expectedNonVariable);
+   61:                                                    
+
+  Difference:
+
+    `<!DOCTYPE html>␊
+    <html>␊
+    <head>␊
+    	<meta charset="UTF-8">␊
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">␊
+    	<meta http-equiv="X-UA-Compatible" content="ie=edge">␊
+    	<title>404: NORMALIZED_PATH</title>␊
+    	<meta charset="utf-8">␊
+    	<link rel="stylesheet" href="{markserv}templates/markserv.css">␊
+    	<link rel="stylesheet" href="{markserv}templates/highlight-js-github-gist.css">␊
+    	<link rel="stylesheet" href="{markserv}icons/icons.css">␊
+    </head>␊
+    <body class="dir">␊
+    <article class="markdown-body">␊
+  + 		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>␊
+    <h1>⛔ Error 404</h1>␊
+    ␊
+    <p></p>␊
+    <p><a class="button back" href="NORMALIZED_BACK">Go Back</a></p>␊
+    <footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: N/A</sup></footer>␊
+    </article>␊
+    </body>␊
+    </html>`
+
+  Request._callback (tests/error-page-404.test.js:60:7)
+  Request.self.callback (node_modules/request/request.js:185:22)
+  Request.<anonymous> (node_modules/request/request.js:1154:10)
+  IncomingMessage.<anonymous> (node_modules/request/request.js:1076:12)
+
+
+
+  dir › start service and get directory listing
+
+  /Users/koheikawasaki/workspace/mine/markserv/tests/dir.test.js:53
+
+   52:         const expectedNoPid = expected.replace(/PID:[\s\d]+</, "PID: N/A…
+   53:         t.is(bodyNoPid, expectedNoPid);                                  
+   54:         t.is(res.statusCode, 200);                                       
+
+  Difference:
+
+    `<!doctype html>␊
+    <html>␊
+      <head>␊
+        <meta charset="UTF-8" />␊
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />␊
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />␊
+        <title>testdir</title>␊
+        <meta charset="utf-8" />␊
+        <link rel="stylesheet" href="{markserv}templates/markserv.css" />␊
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>␊
+        <script>␊
+          mermaid.initialize({ ␊
+            startOnLoad: true,␊
+            theme: 'base',␊
+            themeVariables: {␊
+              fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',␊
+              primaryColor: '#373B41',␊
+              primaryTextColor: '#E6E6E6',␊
+              primaryBorderColor: '#676B79',␊
+              lineColor: '#6FC1FF',␊
+              secondaryColor: '#3E4250',␊
+              tertiaryColor: '#242526',␊
+              mainBkg: '#292A2B',␊
+              nodeBorder: '#676B79',␊
+              clusterBkg: '#373B41',␊
+              clusterBorder: '#676B79',␊
+              defaultLinkColor: '#6FC1FF',␊
+              titleColor: '#E6E6E6',␊
+              edgeLabelBackground: '#373B41'␊
+            },␊
+            flowchart: {␊
+              curve: 'basis'␊
+            }␊
+          });␊
+        </script>␊
+        <link␊
+          rel="stylesheet"␊
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css"␊
+        />␊
+        <link rel="stylesheet" href="{markserv}icons/icons.css" />␊
+      </head>␊
+      <body class="dir">␊
+        <div class="layout-container">␊
+            <aside class="sidebar" id="sidebar"><ul class="nav-tree">␊
+    	<li><details open><summary class="folder"><span>tests</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/tests/markserv-cli-readme/README.md">README.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li><details ><summary class="folder"><span>templates</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li><details ><summary class="folder"><span>subdir</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/tests/templates/subdir/sub-article.md">sub-article.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/tests/templates/article.md">article.md</a></li>␊
+    	<li class="isfile "><a href="/tests/templates/footer.md">footer.md</a></li>␊
+    	<li class="isfile "><a href="/tests/templates/header.md">header.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li><details open><summary class="folder"><span>testdir</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/tests/testdir/file1.md">file1.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/tests/Linked-Markdown-Example.md">Linked-Markdown-Example.md</a></li>␊
+    	<li class="isfile "><a href="/tests/emojis.md">emojis.md</a></li>␊
+    	<li class="isfile "><a href="/tests/implant-file.render-fixture.md">implant-file.render-fixture.md</a></li>␊
+    	<li class="isfile "><a href="/tests/links.md">links.md</a></li>␊
+    	<li class="isfile "><a href="/tests/mathjax.md">mathjax.md</a></li>␊
+    	<li class="isfile "><a href="/tests/slugify-header-links.md">slugify-header-links.md</a></li>␊
+    	<li class="isfile "><a href="/tests/syntax-highlighting.md">syntax-highlighting.md</a></li>␊
+    	<li class="isfile "><a href="/tests/tables.md">tables.md</a></li>␊
+    	<li class="isfile "><a href="/tests/toc.md">toc.md</a></li>␊
+    	<li class="isfile "><a href="/tests/测试.md">测试.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/CHANGELOG.md">CHANGELOG.md</a></li>␊
+    	<li class="isfile "><a href="/README.md">README.md</a></li>␊
+    </ul>␊
+    </aside>␊
+  -         <div class="sidebar-overlay" id="sidebar-overlay"></div>␊
+  + 	<div class="sidebar-overlay" id="sidebar-overlay"></div>␊
+          <article class="markdown-body">␊
+  -         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>␊
+  + 		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>␊
+            <h1 class="icon folder">␊
+              <a href="/">./</a><a href="/tests/">tests/</a><a href="/tests/testdir/">testdir/</a>␊
+            </h1>␊
+            <ul>␊
+    	<li class="isfile"><a href="file1.md">file1.md</a></li> ␊
+    </ul>␊
+    ␊
+            <footer>␊
+              <sup␊
+                ><hr />␊
+                Served by␊
+                <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: N/A</sup␊
+              >␊
+            </footer>␊
+          </article>␊
+  -       </article>␊
+        </div>␊
+  -     <script>␊
+  -       const menuToggle = document.getElementById('menu-toggle');␊
+  -       const sidebar = document.getElementById('sidebar');␊
+  -       const sidebarOverlay = document.getElementById('sidebar-overlay');␊
+  -       ␊
+  -       if (menuToggle && sidebar && sidebarOverlay) {␊
+  -         const toggleMenu = () => {␊
+  -           sidebar.classList.toggle('open');␊
+  -           sidebarOverlay.classList.toggle('open');␊
+  -         };␊
+  -         menuToggle.addEventListener('click', toggleMenu);␊
+  -         sidebarOverlay.addEventListener('click', toggleMenu);␊
+  -         // Close sidebar when clicking a link inside it on mobile␊
+  -         sidebar.addEventListener('click', (e) => {␊
+  -           if (e.target.tagName === 'A' && window.innerWidth <= 768) {␊
+  -             sidebar.classList.remove('open');␊
+  -             sidebarOverlay.classList.remove('open');␊
+  -           }␊
+  -         });␊
+  -       }␊
+  -     </script>␊
+      </body>␊
+    </html>␊
+    `
+
+  Request._callback (tests/dir.test.js:53:7)
+  Request.self.callback (node_modules/request/request.js:185:22)
+  Request.<anonymous> (node_modules/request/request.js:1154:10)
+  IncomingMessage.<anonymous> (node_modules/request/request.js:1076:12)
+
+
+
+  implant-file › start service and get text file
+
+  /Users/koheikawasaki/workspace/mine/markserv/tests/implant-file.test.js:54
+
+   53:         const expectedNoPid = expected.replace(/PID:[\s\d]+</, "PID: N/A…
+   54:         t.is(bodyNoPid, expectedNoPid);                                  
+   55:         t.is(res.statusCode, 200);                                       
+
+  Difference:
+
+    `<!DOCTYPE html>␊
+    <html>␊
+    <head>␊
+    	<meta charset="UTF-8">␊
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">␊
+    	<meta http-equiv="X-UA-Compatible" content="ie=edge">␊
+    	<title>implant-file.render-fixture.md</title>␊
+    	<meta charset="utf-8">␊
+    	<link rel="stylesheet" href="{markserv}templates/markserv.css">␊
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">␊
+    	<link rel="stylesheet" href="{markserv}icons/icons.css">␊
+    	<script type="text/javascript" id="MathJax-script" async␊
+    	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">␊
+            </script>␊
+    	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>␊
+    	<script>␊
+    		document.addEventListener("DOMContentLoaded", function() {␊
+    			mermaid.initialize({ ␊
+    				startOnLoad: true,␊
+    				theme: 'base',␊
+    				themeVariables: {␊
+    					fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',␊
+    					primaryColor: '#373B41',␊
+    					primaryTextColor: '#E6E6E6',␊
+    					primaryBorderColor: '#676B79',␊
+    					lineColor: '#6FC1FF',␊
+    					secondaryColor: '#3E4250',␊
+    					tertiaryColor: '#242526',␊
+    					mainBkg: '#292A2B',␊
+    					nodeBorder: '#676B79',␊
+    					clusterBkg: '#373B41',␊
+    					clusterBorder: '#676B79',␊
+    					defaultLinkColor: '#6FC1FF',␊
+    					titleColor: '#E6E6E6',␊
+    					edgeLabelBackground: '#373B41'␊
+    				},␊
+    				flowchart: {␊
+    					curve: 'basis'␊
+    				}␊
+    			});␊
+    			const mermaidBlocks = document.querySelectorAll('code.language-mermaid');␊
+    			mermaidBlocks.forEach(block => {␊
+    				const pre = block.parentNode;␊
+    				const div = document.createElement('div');␊
+    				div.className = 'mermaid';␊
+    				div.textContent = block.textContent;␊
+    				pre.parentNode.replaceChild(div, pre);␊
+    			});␊
+    		});␊
+    	</script>␊
+    </head>␊
+    <body>␊
+    <div class="layout-container">␊
+    	<aside class="sidebar" id="sidebar">␊
+    		<ul class="nav-tree">␊
+    	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/markserv-cli-readme/README.md">README.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li><details ><summary class="folder"><span>templates</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li><details ><summary class="folder"><span>subdir</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/templates/subdir/sub-article.md">sub-article.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/templates/article.md">article.md</a></li>␊
+    	<li class="isfile "><a href="/templates/footer.md">footer.md</a></li>␊
+    	<li class="isfile "><a href="/templates/header.md">header.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li><details ><summary class="folder"><span>testdir</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/testdir/file1.md">file1.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/Linked-Markdown-Example.md">Linked-Markdown-Example.md</a></li>␊
+    	<li class="isfile "><a href="/emojis.md">emojis.md</a></li>␊
+    	<li class="isfile current"><a href="/implant-file.render-fixture.md">implant-file.render-fixture.md</a></li>␊
+    	<li class="isfile "><a href="/links.md">links.md</a></li>␊
+    	<li class="isfile "><a href="/mathjax.md">mathjax.md</a></li>␊
+    	<li class="isfile "><a href="/slugify-header-links.md">slugify-header-links.md</a></li>␊
+    	<li class="isfile "><a href="/syntax-highlighting.md">syntax-highlighting.md</a></li>␊
+    	<li class="isfile "><a href="/tables.md">tables.md</a></li>␊
+    	<li class="isfile "><a href="/toc.md">toc.md</a></li>␊
+    	<li class="isfile "><a href="/测试.md">测试.md</a></li>␊
+    </ul>␊
+    ␊
+    	</aside>␊
+    	<div class="sidebar-overlay" id="sidebar-overlay"></div>␊
+    	<article class="markdown-body">␊
+    		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>␊
+    	<h1 id="implant-file">Implant File</h1>␊
+    <p>YOU TOO SHALL PASS</p>␊
+    ␊
+    	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: N/A</sup></footer>␊
+    	</article>␊
+  - 	</article>␊
+    </div>␊
+  - <script>␊
+  - 	const menuToggle = document.getElementById('menu-toggle');␊
+  - 	const sidebar = document.getElementById('sidebar');␊
+  - 	const sidebarOverlay = document.getElementById('sidebar-overlay');␊
+  - 	␊
+  - 	if (menuToggle && sidebar && sidebarOverlay) {␊
+  - 		const toggleMenu = () => {␊
+  - 			sidebar.classList.toggle('open');␊
+  - 			sidebarOverlay.classList.toggle('open');␊
+  - 		};␊
+  - 		menuToggle.addEventListener('click', toggleMenu);␊
+  - 		sidebarOverlay.addEventListener('click', toggleMenu);␊
+  - 		// Close sidebar when clicking a link inside it on mobile␊
+  - 		sidebar.addEventListener('click', (e) => {␊
+  - 			if (e.target.tagName === 'A' && window.innerWidth <= 768) {␊
+  - 				sidebar.classList.remove('open');␊
+  - 				sidebarOverlay.classList.remove('open');␊
+  - 			}␊
+  - 		});␊
+  - 	}␊
+  - </script>␊
+    </body>␊
+    </html>␊
+    `
+
+  Request._callback (tests/implant-file.test.js:54:7)
+  Request.self.callback (node_modules/request/request.js:185:22)
+  Request.<anonymous> (node_modules/request/request.js:1154:10)
+  IncomingMessage.<anonymous> (node_modules/request/request.js:1076:12)
+
+
+
+  service › start service and receive tables markdown
+
+  /Users/koheikawasaki/workspace/mine/markserv/tests/service.test.js:53
+
+   52:         const expectedNoPid = expected.replace(/PID:[\s\d]+</, "PID: N/A…
+   53:         t.is(bodyNoPid, expectedNoPid);                                  
+   54:                                                                          
+
+  Difference:
+
+    `<!DOCTYPE html>␊
+    <html>␊
+    <head>␊
+    	<meta charset="UTF-8">␊
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">␊
+    	<meta http-equiv="X-UA-Compatible" content="ie=edge">␊
+    	<title>tables.md</title>␊
+    	<meta charset="utf-8">␊
+    	<link rel="stylesheet" href="{markserv}templates/markserv.css">␊
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">␊
+    	<link rel="stylesheet" href="{markserv}icons/icons.css">␊
+    	<script type="text/javascript" id="MathJax-script" async␊
+    	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">␊
+            </script>␊
+    	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>␊
+    	<script>␊
+    		document.addEventListener("DOMContentLoaded", function() {␊
+    			mermaid.initialize({ ␊
+    				startOnLoad: true,␊
+    				theme: 'base',␊
+    				themeVariables: {␊
+    					fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',␊
+    					primaryColor: '#373B41',␊
+    					primaryTextColor: '#E6E6E6',␊
+    					primaryBorderColor: '#676B79',␊
+    					lineColor: '#6FC1FF',␊
+    					secondaryColor: '#3E4250',␊
+    					tertiaryColor: '#242526',␊
+    					mainBkg: '#292A2B',␊
+    					nodeBorder: '#676B79',␊
+    					clusterBkg: '#373B41',␊
+    					clusterBorder: '#676B79',␊
+    					defaultLinkColor: '#6FC1FF',␊
+    					titleColor: '#E6E6E6',␊
+    					edgeLabelBackground: '#373B41'␊
+    				},␊
+    				flowchart: {␊
+    					curve: 'basis'␊
+    				}␊
+    			});␊
+    			const mermaidBlocks = document.querySelectorAll('code.language-mermaid');␊
+    			mermaidBlocks.forEach(block => {␊
+    				const pre = block.parentNode;␊
+    				const div = document.createElement('div');␊
+    				div.className = 'mermaid';␊
+    				div.textContent = block.textContent;␊
+    				pre.parentNode.replaceChild(div, pre);␊
+    			});␊
+    		});␊
+    	</script>␊
+    </head>␊
+    <body>␊
+    <div class="layout-container">␊
+    	<aside class="sidebar" id="sidebar">␊
+    		<ul class="nav-tree">␊
+    	<li><details open><summary class="folder"><span>tests</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/tests/markserv-cli-readme/README.md">README.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li><details ><summary class="folder"><span>templates</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li><details ><summary class="folder"><span>subdir</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/tests/templates/subdir/sub-article.md">sub-article.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/tests/templates/article.md">article.md</a></li>␊
+    	<li class="isfile "><a href="/tests/templates/footer.md">footer.md</a></li>␊
+    	<li class="isfile "><a href="/tests/templates/header.md">header.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li><details ><summary class="folder"><span>testdir</span></summary>␊
+    <ul class="nav-tree">␊
+    	<li class="isfile "><a href="/tests/testdir/file1.md">file1.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/tests/Linked-Markdown-Example.md">Linked-Markdown-Example.md</a></li>␊
+    	<li class="isfile "><a href="/tests/emojis.md">emojis.md</a></li>␊
+    	<li class="isfile "><a href="/tests/implant-file.render-fixture.md">implant-file.render-fixture.md</a></li>␊
+    	<li class="isfile "><a href="/tests/links.md">links.md</a></li>␊
+    	<li class="isfile "><a href="/tests/mathjax.md">mathjax.md</a></li>␊
+    	<li class="isfile "><a href="/tests/slugify-header-links.md">slugify-header-links.md</a></li>␊
+    	<li class="isfile "><a href="/tests/syntax-highlighting.md">syntax-highlighting.md</a></li>␊
+    	<li class="isfile current"><a href="/tests/tables.md">tables.md</a></li>␊
+    	<li class="isfile "><a href="/tests/toc.md">toc.md</a></li>␊
+    	<li class="isfile "><a href="/tests/测试.md">测试.md</a></li>␊
+    </ul>␊
+    	</details></li>␊
+    	<li class="isfile "><a href="/CHANGELOG.md">CHANGELOG.md</a></li>␊
+    	<li class="isfile "><a href="/README.md">README.md</a></li>␊
+    </ul>␊
+    ␊
+    	</aside>␊
+    	<div class="sidebar-overlay" id="sidebar-overlay"></div>␊
+    	<article class="markdown-body">␊
+    		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>␊
+    	<p>Colons can be used to align columns.</p>␊
+    <table>␊
+    <thead>␊
+    <tr>␊
+    <th>Tables</th>␊
+    <th style="text-align:center">Are</th>␊
+    <th style="text-align:right">Cool</th>␊
+    </tr>␊
+    </thead>␊
+    <tbody>␊
+    <tr>␊
+    <td>col 3 is</td>␊
+    <td style="text-align:center">right-aligned</td>␊
+    <td style="text-align:right">$1600</td>␊
+    </tr>␊
+    <tr>␊
+    <td>col 2 is</td>␊
+    <td style="text-align:center">centered</td>␊
+    <td style="text-align:right">$12</td>␊
+    </tr>␊
+    <tr>␊
+    <td>zebra stripes</td>␊
+    <td style="text-align:center">are neat</td>␊
+    <td style="text-align:right">$1</td>␊
+    </tr>␊
+    </tbody>␊
+    </table>␊
+    <p>There must be at least 3 dashes separating each header cell.␊
+    The outer pipes (|) are optional, and you don't need to make the␊
+    raw Markdown line up prettily. You can also use inline Markdown.</p>␊
+    <table>␊
+    <thead>␊
+    <tr>␊
+    <th>Markdown</th>␊
+    <th>Less</th>␊
+    <th>Pretty</th>␊
+    </tr>␊
+    </thead>␊
+    <tbody>␊
+    <tr>␊
+    <td><em>Still</em></td>␊
+    <td><code>renders</code></td>␊
+    <td><strong>nicely</strong></td>␊
+    </tr>␊
+    <tr>␊
+    <td>1</td>␊
+    <td>2</td>␊
+    <td>3</td>␊
+    </tr>␊
+    </tbody>␊
+    </table>␊
+    ␊
+    	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: N/A</sup></footer>␊
+    	</article>␊
+  - 	</article>␊
+    </div>␊
+  - <script>␊
+  - 	const menuToggle = document.getElementById('menu-toggle');␊
+  - 	const sidebar = document.getElementById('sidebar');␊
+  - 	const sidebarOverlay = document.getElementById('sidebar-overlay');␊
+  - 	␊
+  - 	if (menuToggle && sidebar && sidebarOverlay) {␊
+  - 		const toggleMenu = () => {␊
+  - 			sidebar.classList.toggle('open');␊
+  - 			sidebarOverlay.classList.toggle('open');␊
+  - 		};␊
+  - 		menuToggle.addEventListener('click', toggleMenu);␊
+  - 		sidebarOverlay.addEventListener('click', toggleMenu);␊
+  - 		// Close sidebar when clicking a link inside it on mobile␊
+  - 		sidebar.addEventListener('click', (e) => {␊
+  - 			if (e.target.tagName === 'A' && window.innerWidth <= 768) {␊
+  - 				sidebar.classList.remove('open');␊
+  - 				sidebarOverlay.classList.remove('open');␊
+  - 			}␊
+  - 		});␊
+  - 	}␊
+  - </script>␊
+    </body>␊
+    </html>␊
+    `
+
+  Request._callback (tests/service.test.js:53:7)
+  Request.self.callback (node_modules/request/request.js:185:22)
+  Request.<anonymous> (node_modules/request/request.js:1154:10)
+  IncomingMessage.<anonymous> (node_modules/request/request.js:1076:12)
+
+
+
+  `--fail-fast` is on. At least 2 tests were skipped, as well as 3 test files.
+
+-------------|---------|----------|---------|---------|---------------------------------------------
+File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                           
+-------------|---------|----------|---------|---------|---------------------------------------------
+All files    |   78.93 |    62.23 |   77.41 |   79.11 |                                             
+ cli-defs.js |     100 |      100 |     100 |     100 |                                             
+ cli.js      |   90.32 |    66.66 |     100 |   90.32 | 18,41,56                                    
+ readme.js   |   87.75 |    54.54 |     100 |   87.75 | 25-26,37,44-45,88                           
+ server.js   |   77.41 |    62.66 |    77.1 |   77.62 | ...,797-801,839-874,879-895,904-949,963,990 
+ splash.js   |   66.66 |       75 |   33.33 |   66.66 | 6,14-20                                     
+-------------|---------|----------|---------|---------|---------------------------------------------

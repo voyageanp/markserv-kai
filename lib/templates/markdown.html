@@ -52,14 +52,41 @@
 <body>
 <div class="layout-container">
 	{{#if hasNavTree}}
-	<aside class="sidebar">
+	<aside class="sidebar" id="sidebar">
 		{{{navTree}}}
 	</aside>
+	<div class="sidebar-overlay" id="sidebar-overlay"></div>
 	{{/if}}
 	<article class="markdown-body">
+		{{#if hasNavTree}}
+		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
+		{{/if}}
 	{{{content}}}
 	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: {{pid}}</sup></footer>
 	</article>
 </div>
+{{#if hasNavTree}}
+<script>
+	const menuToggle = document.getElementById('menu-toggle');
+	const sidebar = document.getElementById('sidebar');
+	const sidebarOverlay = document.getElementById('sidebar-overlay');
+	
+	if (menuToggle && sidebar && sidebarOverlay) {
+		const toggleMenu = () => {
+			sidebar.classList.toggle('open');
+			sidebarOverlay.classList.toggle('open');
+		};
+		menuToggle.addEventListener('click', toggleMenu);
+		sidebarOverlay.addEventListener('click', toggleMenu);
+		// Close sidebar when clicking a link inside it on mobile
+		sidebar.addEventListener('click', (e) => {
+			if (e.target.tagName === 'A' && window.innerWidth <= 768) {
+				sidebar.classList.remove('open');
+				sidebarOverlay.classList.remove('open');
+			}
+		});
+	}
+</script>
+{{/if}}
 </body>
 </html>

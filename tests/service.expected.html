@@ -51,7 +51,7 @@
 </head>
 <body>
 <div class="layout-container">
-	<aside class="sidebar">
+	<aside class="sidebar" id="sidebar">
 		<ul class="nav-tree">
 	<li><details open><summary class="folder"><span>tests</span></summary>
 <ul class="nav-tree">
@@ -94,7 +94,9 @@
 </ul>
 
 	</aside>
+	<div class="sidebar-overlay" id="sidebar-overlay"></div>
 	<article class="markdown-body">
+		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
 	<p>Colons can be used to align columns.</p>
 <table>
 <thead>
@@ -147,8 +149,29 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 38931</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 77745</sup></footer>
 	</article>
 </div>
+<script>
+	const menuToggle = document.getElementById('menu-toggle');
+	const sidebar = document.getElementById('sidebar');
+	const sidebarOverlay = document.getElementById('sidebar-overlay');
+	
+	if (menuToggle && sidebar && sidebarOverlay) {
+		const toggleMenu = () => {
+			sidebar.classList.toggle('open');
+			sidebarOverlay.classList.toggle('open');
+		};
+		menuToggle.addEventListener('click', toggleMenu);
+		sidebarOverlay.addEventListener('click', toggleMenu);
+		// Close sidebar when clicking a link inside it on mobile
+		sidebar.addEventListener('click', (e) => {
+			if (e.target.tagName === 'A' && window.innerWidth <= 768) {
+				sidebar.classList.remove('open');
+				sidebarOverlay.classList.remove('open');
+			}
+		});
+	}
+</script>
 </body>
 </html>

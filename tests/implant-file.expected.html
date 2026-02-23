@@ -51,7 +51,7 @@
 </head>
 <body>
 <div class="layout-container">
-	<aside class="sidebar">
+	<aside class="sidebar" id="sidebar">
 		<ul class="nav-tree">
 	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>
 <ul class="nav-tree">
@@ -88,12 +88,35 @@
 </ul>
 
 	</aside>
+	<div class="sidebar-overlay" id="sidebar-overlay"></div>
 	<article class="markdown-body">
+		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
 	<h1 id="implant-file">Implant File</h1>
 <p>YOU TOO SHALL PASS</p>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 38923</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 77744</sup></footer>
 	</article>
 </div>
+<script>
+	const menuToggle = document.getElementById('menu-toggle');
+	const sidebar = document.getElementById('sidebar');
+	const sidebarOverlay = document.getElementById('sidebar-overlay');
+	
+	if (menuToggle && sidebar && sidebarOverlay) {
+		const toggleMenu = () => {
+			sidebar.classList.toggle('open');
+			sidebarOverlay.classList.toggle('open');
+		};
+		menuToggle.addEventListener('click', toggleMenu);
+		sidebarOverlay.addEventListener('click', toggleMenu);
+		// Close sidebar when clicking a link inside it on mobile
+		sidebar.addEventListener('click', (e) => {
+			if (e.target.tagName === 'A' && window.innerWidth <= 768) {
+				sidebar.classList.remove('open');
+				sidebarOverlay.classList.remove('open');
+			}
+		});
+	}
+</script>
 </body>
 </html>
