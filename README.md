@@ -206,6 +206,18 @@ You can change the HTTP Port like this:
 markserv -p 80
 ```
 
+### LiveReload port fallback
+
+Markserv tries your requested LiveReload port first, then falls back in `35729-35739`.
+
+### Disable auto reload
+
+If you do not want browser auto reload while editing:
+
+```shell
+markserv --no-autoreload
+```
+
 ### Making Markserv available to external networks
 
 In some cases `localhost` might be the address on which the server is listening, in which case it is hard to make the site available to external networks even with the right IP. Use the following as an example to make sure the server is accessible from external networks:
