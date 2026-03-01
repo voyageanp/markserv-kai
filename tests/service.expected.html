@@ -15,7 +15,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			mermaid.initialize({ 
+			mermaid.initialize({
 				startOnLoad: true,
 				theme: 'base',
 				themeVariables: {
@@ -52,6 +52,7 @@
 <body>
 <div class="layout-container">
 	<aside class="sidebar" id="sidebar">
+		<h2 class="sidebar-root-stem">markserv</h2>
 		<ul class="nav-tree">
 	<li><details open><summary class="folder"><span>tests</span></summary>
 <ul class="nav-tree">
@@ -97,8 +98,17 @@
 	<div class="sidebar-overlay" id="sidebar-overlay"></div>
 	<article class="markdown-body">
 		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
-	<p>Colons can be used to align columns.</p>
-<table>
+		<button class="ms-edit-toggle" id="ms-edit-toggle" type="button" aria-pressed="false">Edit OFF</button>
+		<div class="ms-desktop-editor" id="ms-desktop-editor">
+			<textarea id="ms-desktop-textarea" class="ms-desktop-textarea" spellcheck="false"></textarea>
+			<div class="ms-desktop-editor-actions">
+				<button type="button" class="ms-editor-button ms-editor-button-primary" id="ms-desktop-save">Save</button>
+				<button type="button" class="ms-editor-button" id="ms-desktop-close">Close</button>
+			</div>
+			<p class="ms-editor-status" id="ms-desktop-status" aria-live="polite"></p>
+		</div>
+	<p data-ms-section-index="0">Colons can be used to align columns.</p>
+<table data-ms-section-index="1">
 <thead>
 <tr>
 <th>Tables</th>
@@ -124,10 +134,10 @@
 </tr>
 </tbody>
 </table>
-<p>There must be at least 3 dashes separating each header cell.
+<p data-ms-section-index="2">There must be at least 3 dashes separating each header cell.
 The outer pipes (|) are optional, and you don't need to make the
 raw Markdown line up prettily. You can also use inline Markdown.</p>
-<table>
+<table data-ms-section-index="3">
 <thead>
 <tr>
 <th>Markdown</th>
@@ -149,14 +159,28 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 77745</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 61309</sup></footer>
 	</article>
+	<div class="ms-mobile-editor-backdrop" id="ms-mobile-editor-backdrop"></div>
+	<div class="ms-mobile-editor" id="ms-mobile-editor" aria-hidden="true">
+		<div class="ms-mobile-editor-header">
+			<strong class="ms-mobile-editor-title" id="ms-mobile-editor-title">Section Editor</strong>
+			<button type="button" class="ms-editor-button" id="ms-mobile-close">Close</button>
+		</div>
+		<textarea id="ms-mobile-textarea" class="ms-mobile-textarea" spellcheck="false"></textarea>
+		<div class="ms-mobile-editor-actions">
+			<button type="button" class="ms-editor-button ms-editor-button-primary" id="ms-mobile-save">Save</button>
+			<button type="button" class="ms-editor-button" id="ms-mobile-insert" aria-label="Insert section below">→</button>
+		</div>
+		<p class="ms-editor-status" id="ms-mobile-status" aria-live="polite"></p>
+	</div>
 </div>
+<script id="ms-edit-data" type="application/json">{"filePath":"/tests/tables.md","mtimeMs":1771743974916.7512,"documentMarkdown":"Colons can be used to align columns.\n\n| Tables        | Are           | Cool  |\n| ------------- |:-------------:| -----:|\n| col 3 is      | right-aligned | $1600 |\n| col 2 is      | centered      |   $12 |\n| zebra stripes | are neat      |    $1 |\n\nThere must be at least 3 dashes separating each header cell.\nThe outer pipes (|) are optional, and you don't need to make the\nraw Markdown line up prettily. You can also use inline Markdown.\n\nMarkdown | Less | Pretty\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n","sections":[{"index":0,"startLine":0,"endLine":1,"rawMarkdown":"Colons can be used to align columns."},{"index":1,"startLine":2,"endLine":7,"rawMarkdown":"| Tables        | Are           | Cool  |\n| ------------- |:-------------:| -----:|\n| col 3 is      | right-aligned | $1600 |\n| col 2 is      | centered      |   $12 |\n| zebra stripes | are neat      |    $1 |"},{"index":2,"startLine":8,"endLine":11,"rawMarkdown":"There must be at least 3 dashes separating each header cell.\nThe outer pipes (|) are optional, and you don't need to make the\nraw Markdown line up prettily. You can also use inline Markdown."},{"index":3,"startLine":12,"endLine":16,"rawMarkdown":"Markdown | Less | Pretty\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3"}]}</script>
 <script>
 	const menuToggle = document.getElementById('menu-toggle');
 	const sidebar = document.getElementById('sidebar');
 	const sidebarOverlay = document.getElementById('sidebar-overlay');
-	
+
 	if (menuToggle && sidebar && sidebarOverlay) {
 		const toggleMenu = () => {
 			sidebar.classList.toggle('open');
@@ -172,6 +196,525 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			}
 		});
 	}
+</script>
+<script>
+	(() => {
+		const editToggle = document.getElementById("ms-edit-toggle");
+		const editDataElement = document.getElementById("ms-edit-data");
+		const article = document.querySelector("article.markdown-body");
+		const desktopEditor = document.getElementById("ms-desktop-editor");
+		const desktopTextarea = document.getElementById("ms-desktop-textarea");
+		const desktopSaveButton = document.getElementById("ms-desktop-save");
+		const desktopCloseButton = document.getElementById("ms-desktop-close");
+		const desktopStatus = document.getElementById("ms-desktop-status");
+		const mobileEditor = document.getElementById("ms-mobile-editor");
+		const mobileBackdrop = document.getElementById("ms-mobile-editor-backdrop");
+		const mobileTitle = document.getElementById("ms-mobile-editor-title");
+		const mobileTextarea = document.getElementById("ms-mobile-textarea");
+		const mobileSaveButton = document.getElementById("ms-mobile-save");
+		const mobileCloseButton = document.getElementById("ms-mobile-close");
+		const mobileInsertButton = document.getElementById("ms-mobile-insert");
+		const mobileStatus = document.getElementById("ms-mobile-status");
+
+		if (
+			!editToggle ||
+			!editDataElement ||
+			!article ||
+			!desktopEditor ||
+			!desktopTextarea ||
+			!desktopSaveButton ||
+			!desktopCloseButton ||
+			!desktopStatus ||
+			!mobileEditor ||
+			!mobileBackdrop ||
+			!mobileTitle ||
+			!mobileTextarea ||
+			!mobileSaveButton ||
+			!mobileCloseButton ||
+			!mobileInsertButton ||
+			!mobileStatus
+		) {
+			return;
+		}
+
+		let parsedEditData;
+		try {
+			parsedEditData = JSON.parse(editDataElement.textContent || "{}");
+		} catch {
+			return;
+		}
+
+		const sectionSelector = "[data-ms-section-index]";
+		const state = {
+			editMode: false,
+			activeEditor: null,
+			selectedIndex: null,
+			insertMode: false,
+			documentMarkdown:
+				typeof parsedEditData.documentMarkdown === "string"
+					? parsedEditData.documentMarkdown
+					: "",
+			desktopInitialMarkdown: "",
+			mobileInitialMarkdown: "",
+			sections: Array.isArray(parsedEditData.sections) ? parsedEditData.sections : [],
+			filePath: parsedEditData.filePath,
+			mtimeMs: parsedEditData.mtimeMs,
+			pendingSave: false,
+		};
+
+		const isMobileViewport = () => window.matchMedia("(max-width: 768px)").matches;
+
+		const getSectionByIndex = (index) =>
+			state.sections.find((section) => section.index === index);
+
+		const getSectionElement = (index) =>
+			article.querySelector(`${sectionSelector}[data-ms-section-index="${index}"]`);
+
+		const setStatus = (element, text, isError) => {
+			element.textContent = text || "";
+			element.classList.toggle("error", Boolean(isError));
+		};
+
+		const clearAllStatus = () => {
+			setStatus(desktopStatus, "", false);
+			setStatus(mobileStatus, "", false);
+		};
+
+		const setButtonsDisabled = (disabled) => {
+			const isDisabled = Boolean(disabled);
+			desktopSaveButton.disabled = isDisabled;
+			desktopCloseButton.disabled = isDisabled;
+			mobileSaveButton.disabled = isDisabled;
+			mobileCloseButton.disabled = isDisabled;
+			mobileInsertButton.disabled = isDisabled;
+		};
+
+		const refreshSelectedDecoration = () => {
+			const sections = article.querySelectorAll(sectionSelector);
+			const mobileActive = isMobileViewport();
+			sections.forEach((sectionElement) => {
+				const index = Number.parseInt(
+					sectionElement.getAttribute("data-ms-section-index"),
+					10,
+				);
+				const isSelected =
+					state.editMode &&
+					mobileActive &&
+					Number.isInteger(index) &&
+					index === state.selectedIndex;
+				sectionElement.classList.toggle("ms-edit-target", isSelected);
+			});
+		};
+
+		const setEditMode = (enabled) => {
+			state.editMode = enabled;
+			document.body.classList.toggle("ms-edit-mode", enabled);
+			editToggle.setAttribute("aria-pressed", enabled ? "true" : "false");
+			editToggle.textContent = enabled ? "Edit ON" : "Edit OFF";
+			if (!enabled) {
+				state.selectedIndex = null;
+				state.insertMode = false;
+			}
+			refreshSelectedDecoration();
+		};
+
+		const requestEdit = async (payload) => {
+			if (state.pendingSave) {
+				return { ok: false, error: "Save already in progress." };
+			}
+
+			state.pendingSave = true;
+			setButtonsDisabled(true);
+			try {
+				const response = await fetch("/__markserv/edit", {
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify(payload),
+				});
+
+				let resultPayload = {};
+				try {
+					resultPayload = await response.json();
+				} catch {}
+
+				if (!response.ok || resultPayload.ok === false) {
+					return {
+						ok: false,
+						error:
+							resultPayload.error ||
+							`Save failed with status ${response.status}.`,
+						mtimeMs: resultPayload.mtimeMs,
+					};
+				}
+
+				return {
+					ok: true,
+					saved: resultPayload.saved,
+					mtimeMs: resultPayload.mtimeMs,
+				};
+			} catch (error) {
+				return {
+					ok: false,
+					error: error.message || "Network error while saving.",
+				};
+			} finally {
+				state.pendingSave = false;
+				setButtonsDisabled(false);
+			}
+		};
+
+		const refreshStateFromServer = async (sectionIndex) => {
+			const response = await fetch(window.location.href, {
+				cache: "no-store",
+				headers: {
+					"x-markserv-edit-refresh": "1",
+				},
+			});
+			if (!response.ok) {
+				return false;
+			}
+
+			const html = await response.text();
+			const parser = new DOMParser();
+			const nextDocument = parser.parseFromString(html, "text/html");
+			if (Number.isInteger(sectionIndex)) {
+				const nextSection = nextDocument.querySelector(
+					`${sectionSelector}[data-ms-section-index="${sectionIndex}"]`,
+				);
+				const currentSection = getSectionElement(sectionIndex);
+				if (nextSection && currentSection) {
+					currentSection.replaceWith(nextSection);
+				}
+			}
+
+			const nextEditData = nextDocument.getElementById("ms-edit-data");
+			if (!nextEditData) {
+				return false;
+			}
+
+			let parsed;
+			try {
+				parsed = JSON.parse(nextEditData.textContent || "{}");
+			} catch {
+				return false;
+			}
+
+			state.sections = Array.isArray(parsed.sections) ? parsed.sections : state.sections;
+			if (typeof parsed.documentMarkdown === "string") {
+				state.documentMarkdown = parsed.documentMarkdown;
+			}
+			if (Number.isFinite(parsed.mtimeMs)) {
+				state.mtimeMs = parsed.mtimeMs;
+			}
+
+			refreshSelectedDecoration();
+			return true;
+		};
+
+		const saveDesktopDocument = async (reloadOnSuccess) => {
+			const result = await requestEdit({
+				action: "update_document",
+				filePath: state.filePath,
+				markdown: desktopTextarea.value,
+				baseMtimeMs: state.mtimeMs,
+			});
+
+			if (!result.ok) {
+				if (Number.isFinite(result.mtimeMs)) {
+					state.mtimeMs = result.mtimeMs;
+				}
+				setStatus(desktopStatus, result.error || "Save failed.", true);
+				return false;
+			}
+
+			if (Number.isFinite(result.mtimeMs)) {
+				state.mtimeMs = result.mtimeMs;
+			}
+
+			if (!result.saved) {
+				setStatus(desktopStatus, "No changes were saved.", false);
+				state.desktopInitialMarkdown = desktopTextarea.value;
+				state.documentMarkdown = desktopTextarea.value;
+				return true;
+			}
+
+			state.desktopInitialMarkdown = desktopTextarea.value;
+			state.documentMarkdown = desktopTextarea.value;
+			setStatus(desktopStatus, "Saved.", false);
+			if (reloadOnSuccess) {
+				location.reload();
+			}
+			return true;
+		};
+
+		const closeDesktopEditor = async (autoSave) => {
+			if (state.activeEditor !== "desktop") {
+				return true;
+			}
+
+			const isDirty = desktopTextarea.value !== state.desktopInitialMarkdown;
+			if (autoSave && isDirty) {
+				const saved = await saveDesktopDocument(true);
+				if (!saved) {
+					return false;
+				}
+			}
+
+			desktopEditor.classList.remove("open");
+			state.activeEditor = null;
+			setStatus(desktopStatus, "", false);
+			return true;
+		};
+
+		const openDesktopEditor = () => {
+			desktopTextarea.value = state.documentMarkdown;
+			state.desktopInitialMarkdown = desktopTextarea.value;
+			state.activeEditor = "desktop";
+			desktopEditor.classList.add("open");
+			setStatus(desktopStatus, "", false);
+		};
+
+		const saveMobileEditor = async (closeAfterSave) => {
+			if (!Number.isInteger(state.selectedIndex) || state.selectedIndex < 0) {
+				setStatus(mobileStatus, "No section selected.", true);
+				return false;
+			}
+
+			const action = state.insertMode ? "insert_section_after" : "update_section";
+			const markdownText = mobileTextarea.value;
+			if (action === "insert_section_after" && markdownText.trim() === "") {
+				setStatus(mobileStatus, "No changes were saved.", false);
+				if (closeAfterSave) {
+					return closeMobileEditor(false);
+				}
+				return true;
+			}
+
+			const result = await requestEdit({
+				action,
+				filePath: state.filePath,
+				sectionIndex: state.selectedIndex,
+				markdown: markdownText,
+				baseMtimeMs: state.mtimeMs,
+			});
+
+			if (!result.ok) {
+				if (Number.isFinite(result.mtimeMs)) {
+					state.mtimeMs = result.mtimeMs;
+				}
+				setStatus(mobileStatus, result.error || "Save failed.", true);
+				return false;
+			}
+
+			if (Number.isFinite(result.mtimeMs)) {
+				state.mtimeMs = result.mtimeMs;
+			}
+
+			if (!result.saved) {
+				setStatus(mobileStatus, "No changes were saved.", false);
+				if (closeAfterSave) {
+					return closeMobileEditor(false);
+				}
+				return true;
+			}
+
+			if (action === "insert_section_after") {
+				location.reload();
+				return true;
+			}
+
+			const section = getSectionByIndex(state.selectedIndex);
+			if (section) {
+				section.rawMarkdown = markdownText;
+			}
+			state.mobileInitialMarkdown = markdownText;
+			const refreshed = await refreshStateFromServer(state.selectedIndex);
+			if (!refreshed) {
+				location.reload();
+				return true;
+			}
+
+			setStatus(mobileStatus, "Saved.", false);
+			if (closeAfterSave) {
+				return closeMobileEditor(false);
+			}
+			return true;
+		};
+
+		const closeMobileEditor = async (autoSave) => {
+			if (state.activeEditor !== "mobile") {
+				return true;
+			}
+
+			const isDirty = mobileTextarea.value !== state.mobileInitialMarkdown;
+			if (autoSave && isDirty) {
+				const saved = await saveMobileEditor(false);
+				if (!saved) {
+					return false;
+				}
+			}
+
+			mobileEditor.classList.remove("open");
+			mobileBackdrop.classList.remove("open");
+			mobileEditor.setAttribute("aria-hidden", "true");
+			state.activeEditor = null;
+			state.insertMode = false;
+			state.mobileInitialMarkdown = "";
+			setStatus(mobileStatus, "", false);
+			return true;
+		};
+
+		const closeActiveEditor = async (autoSave) => {
+			if (state.activeEditor === "desktop") {
+				return closeDesktopEditor(autoSave);
+			}
+			if (state.activeEditor === "mobile") {
+				return closeMobileEditor(autoSave);
+			}
+			return true;
+		};
+
+		const openMobileEditor = (index) => {
+			const section = getSectionByIndex(index);
+			const markdownText = section ? section.rawMarkdown : "";
+			state.selectedIndex = index;
+			state.insertMode = false;
+			state.mobileInitialMarkdown = markdownText;
+			mobileTextarea.value = markdownText;
+			mobileTitle.textContent = `Section ${index + 1}`;
+			setStatus(mobileStatus, "", false);
+			mobileEditor.classList.add("open");
+			mobileBackdrop.classList.add("open");
+			mobileEditor.setAttribute("aria-hidden", "false");
+			state.activeEditor = "mobile";
+			refreshSelectedDecoration();
+		};
+
+		const enableMobileInsertMode = () => {
+			state.insertMode = true;
+			state.mobileInitialMarkdown = "";
+			mobileTextarea.value = "";
+			mobileTitle.textContent = `Insert Below Section ${state.selectedIndex + 1}`;
+			setStatus(mobileStatus, "Enter new section text and save.", false);
+			mobileTextarea.focus();
+		};
+
+		const toggleEditMode = async () => {
+			if (state.editMode) {
+				const closed = await closeActiveEditor(true);
+				if (!closed) {
+					return;
+				}
+				setEditMode(false);
+				return;
+			}
+
+			setEditMode(true);
+			if (!isMobileViewport()) {
+				openDesktopEditor();
+			}
+		};
+
+		desktopSaveButton.addEventListener("click", async () => {
+			await saveDesktopDocument(true);
+		});
+
+		desktopCloseButton.addEventListener("click", async () => {
+			const closed = await closeDesktopEditor(true);
+			if (closed) {
+				setEditMode(false);
+			}
+		});
+
+		mobileSaveButton.addEventListener("click", async () => {
+			await saveMobileEditor(false);
+		});
+
+		mobileCloseButton.addEventListener("click", async () => {
+			await closeMobileEditor(true);
+		});
+
+		mobileBackdrop.addEventListener("click", async () => {
+			await closeMobileEditor(true);
+		});
+
+		mobileInsertButton.addEventListener("click", () => {
+			if (!Number.isInteger(state.selectedIndex)) {
+				return;
+			}
+			enableMobileInsertMode();
+		});
+
+		editToggle.addEventListener("click", async () => {
+			await toggleEditMode();
+		});
+
+		window.addEventListener("keydown", async (event) => {
+			if (!event.metaKey && !event.ctrlKey) {
+				return;
+			}
+
+			const lowerKey = event.key.toLowerCase();
+			if (lowerKey === "e") {
+				event.preventDefault();
+				await toggleEditMode();
+				return;
+			}
+
+			if (lowerKey === "enter") {
+				if (!state.editMode || state.activeEditor !== "desktop") {
+					return;
+				}
+				if (document.activeElement !== desktopTextarea) {
+					return;
+				}
+
+				event.preventDefault();
+				await saveDesktopDocument(true);
+			}
+		});
+
+		article.addEventListener("click", async (event) => {
+			if (!state.editMode || !isMobileViewport()) {
+				return;
+			}
+
+			if (event.target.closest("#ms-mobile-editor")) {
+				return;
+			}
+
+			const sectionElement = event.target.closest(sectionSelector);
+			if (!sectionElement || !article.contains(sectionElement)) {
+				return;
+			}
+
+			const sectionIndex = Number.parseInt(
+				sectionElement.getAttribute("data-ms-section-index"),
+				10,
+			);
+			if (!Number.isInteger(sectionIndex)) {
+				return;
+			}
+
+			if (event.target.closest("a")) {
+				event.preventDefault();
+			}
+
+			if (state.selectedIndex !== null && state.selectedIndex !== sectionIndex) {
+				const closed = await closeMobileEditor(true);
+				if (!closed) {
+					return;
+				}
+			}
+
+			openMobileEditor(sectionIndex);
+		});
+
+		setEditMode(false);
+		clearAllStatus();
+	})();
 </script>
 </body>
 </html>

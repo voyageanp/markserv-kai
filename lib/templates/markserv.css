@@ -812,3 +812,178 @@ body .markdown-body {
     display: block; /* Show overlay */
   }
 }
+
+.ms-edit-toggle {
+  position: sticky;
+  top: 10px;
+  float: right;
+  z-index: 20;
+  border: 1px solid var(--gray);
+  background-color: var(--bg1);
+  color: var(--fg);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ms-edit-toggle:hover {
+  background-color: var(--bg2);
+}
+
+.ms-desktop-editor {
+  display: none;
+  margin: 10px 0 20px;
+  padding: 12px;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  background-color: var(--bg0_h);
+}
+
+.ms-edit-mode .ms-desktop-editor.open {
+  display: block;
+}
+
+.ms-desktop-textarea,
+.ms-mobile-textarea {
+  width: 100%;
+  min-height: 220px;
+  border: 1px solid var(--gray);
+  border-radius: 6px;
+  background-color: var(--bg);
+  color: var(--fg);
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ms-desktop-editor-actions,
+.ms-mobile-editor-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.ms-editor-button {
+  border: 1px solid var(--gray);
+  background-color: var(--bg1);
+  color: var(--fg);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.ms-editor-button:hover:not(:disabled) {
+  background-color: var(--bg2);
+}
+
+.ms-editor-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ms-editor-button-primary {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.ms-editor-status {
+  margin: 8px 0 0;
+  min-height: 1.2em;
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.ms-editor-status.error {
+  color: var(--red);
+}
+
+.ms-mobile-editor-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+}
+
+.ms-mobile-editor {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1101;
+  background: var(--bg0_h);
+  border-top: 1px solid var(--gray);
+  border-radius: 12px 12px 0 0;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.ms-mobile-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.ms-mobile-editor.open,
+.ms-mobile-editor-backdrop.open {
+  display: block;
+}
+
+@media screen and (min-width: 769px) {
+  .ms-edit-mode .markdown-body [data-ms-section-index] {
+    outline: none;
+    background: transparent;
+  }
+
+  .ms-mobile-editor,
+  .ms-mobile-editor-backdrop {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ms-desktop-editor {
+    display: none !important;
+  }
+
+  .ms-edit-mode .markdown-body [data-ms-section-index] {
+    cursor: text;
+    border-radius: 6px;
+    transition: background-color 0.15s ease, outline-color 0.15s ease;
+  }
+
+  .ms-edit-mode .markdown-body [data-ms-section-index]:hover {
+    background-color: rgba(111, 193, 255, 0.08);
+    outline: 1px dashed rgba(111, 193, 255, 0.4);
+  }
+
+  .ms-edit-mode .markdown-body [data-ms-section-index].ms-edit-target {
+    background-color: rgba(111, 193, 255, 0.12);
+    outline: 1px solid rgba(111, 193, 255, 0.6);
+  }
+}
+
+.sidebar-root-stem {
+  margin: 0 0 14px;
+  font-family: "Orbitron", "Rajdhani", "Eurostile", "BankGothic Md BT", "Segoe UI", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: var(--blue);
+  text-shadow: 0 0 12px rgba(111, 193, 255, 0.35);
+  word-break: break-all;
+}
+
+.sidebar .nav-tree,
+.sidebar .nav-tree a,
+.sidebar .nav-tree summary,
+.sidebar .nav-tree li,
+.sidebar .nav-tree summary span {
+  font-size: 13px;
+}

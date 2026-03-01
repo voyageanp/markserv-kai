@@ -5,6 +5,11 @@ import test from "ava";
 import getPort from "get-port";
 import markserv from "../lib/server";
 
+const normalizeDynamicFields = html =>
+	html
+		.replaceAll(/PID:[\s\d]+</g, "PID: N/A<")
+		.replaceAll(/"mtimeMs":[\d.]+/g, "\"mtimeMs\":0");
+
 test.cb("start service and get text file", t => {
 	t.plan(3);
 
@@ -49,9 +54,9 @@ test.cb("start service and get text file", t => {
 				// Write expected:
 				// fs.writeFileSync(path.join(__dirname, 'implant-file.expected.html'), body)
 
-				const bodyNoPid = body.replace(/PID:[\s\d]+</, "PID: N/A<");
-				const expectedNoPid = expected.replace(/PID:[\s\d]+</, "PID: N/A<");
-				t.is(bodyNoPid, expectedNoPid);
+				const normalizedBody = normalizeDynamicFields(body);
+				const normalizedExpected = normalizeDynamicFields(expected);
+				t.is(normalizedBody, normalizedExpected);
 				t.is(res.statusCode, 200);
 				t.pass();
 				closeServer();
