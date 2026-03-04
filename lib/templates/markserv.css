@@ -736,6 +736,40 @@ a.button.back {
   color: var(--aqua);
 }
 
+.sidebar.kbd-nav-focus {
+  outline: 1px solid var(--purple);
+  box-shadow: inset 0 0 0 1px var(--purple);
+}
+
+.sidebar .nav-tree summary.kbd-nav-active,
+.sidebar .nav-tree a.kbd-nav-active {
+  border-radius: 4px;
+  padding: 2px 6px;
+  text-decoration: none;
+}
+
+.sidebar .nav-tree summary.kbd-nav-active-current,
+.sidebar .nav-tree a.kbd-nav-active-current {
+  color: var(--green);
+  background-color: var(--bg1);
+  box-shadow: inset 2px 0 0 var(--green);
+  font-weight: 700;
+}
+.sidebar .nav-tree summary.kbd-nav-active-current > span {
+  color: var(--green);
+}
+
+.sidebar .nav-tree summary.kbd-nav-active-different,
+.sidebar .nav-tree a.kbd-nav-active-different {
+  color: var(--orange);
+  background-color: var(--bg2);
+  box-shadow: inset 2px 0 0 var(--orange);
+  font-weight: 700;
+}
+.sidebar .nav-tree summary.kbd-nav-active-different > span {
+  color: var(--orange);
+}
+
 body .markdown-body {
   flex-grow: 1;
   height: 100%;

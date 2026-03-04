@@ -110,6 +110,18 @@
 	const sidebar = document.getElementById('sidebar');
 	const sidebarOverlay = document.getElementById('sidebar-overlay');
 	const sidebarThemeAscii = document.getElementById('sidebar-theme-ascii');
+	const NAV_ITEM_SELECTOR = ".nav-tree summary, .nav-tree li.isfile > a";
+	const NAV_ACTIVE_CLASSES = [
+		"kbd-nav-active",
+		"kbd-nav-active-current",
+		"kbd-nav-active-different",
+	];
+	const navState = {
+		focusMode: false,
+		items: [],
+		activeIndex: -1,
+		currentItem: null,
+	};
 
 	const decodeCssString = (rawValue) => {
 		if (!rawValue) {
@@ -133,6 +145,245 @@
 		sidebarThemeAscii.textContent = decodeCssString(cssAscii);
 	}
 
+	const isEditableTarget = (target) => {
+		if (!(target instanceof HTMLElement)) {
+			return false;
+		}
+
+		if (target.isContentEditable) {
+			return true;
+		}
+
+		const editable = target.closest("input, textarea, select, [contenteditable=\"true\"]");
+		return editable !== null;
+	};
+
+	const getCurrentNavItem = () => {
+		if (!sidebar) {
+			return null;
+		}
+
+		const currentFile = sidebar.querySelector(".nav-tree li.current > a");
+		if (currentFile) {
+			return currentFile;
+		}
+
+		return sidebar.querySelector(NAV_ITEM_SELECTOR) || null;
+	};
+
+	const isVisibleInTree = (element) => {
+		let node = element.parentElement;
+		while (node && node !== sidebar) {
+			if (node.tagName === "DETAILS" && !node.open) {
+				return element.tagName === "SUMMARY" && node === element.parentElement;
+			}
+			node = node.parentElement;
+		}
+		return true;
+	};
+
+	const getSelectableItems = () => sidebar
+		? [...sidebar.querySelectorAll(NAV_ITEM_SELECTOR)].filter(isVisibleInTree)
+		: [];
+
+	const revealSummaryInTree = (summary) => {
+		if (!summary || !sidebar) {
+			return;
+		}
+
+		let ancestorDetails = summary.parentElement
+			? summary.parentElement.closest("details")
+			: null;
+		while (ancestorDetails) {
+			const parentDetails = ancestorDetails.parentElement
+				? ancestorDetails.parentElement.closest("details")
+				: null;
+			if (parentDetails && !parentDetails.open) {
+				parentDetails.open = true;
+			}
+			ancestorDetails = parentDetails;
+		}
+	};
+
+	const clearActiveItemStyles = () => {
+		if (!sidebar) {
+			return;
+		}
+
+		const selector = NAV_ACTIVE_CLASSES.map((className) => `.${className}`).join(",");
+		const activeItems = sidebar.querySelectorAll(selector);
+		activeItems.forEach((activeItem) => {
+			activeItem.classList.remove(...NAV_ACTIVE_CLASSES);
+		});
+	};
+
+	const setActiveItemStyles = (element) => {
+		clearActiveItemStyles();
+		if (!element) {
+			return;
+		}
+
+		element.classList.add("kbd-nav-active");
+		if (navState.currentItem && element === navState.currentItem) {
+			element.classList.add("kbd-nav-active-current");
+			return;
+		}
+
+		element.classList.add("kbd-nav-active-different");
+	};
+
+	const openSidebarForKeyboardFocus = () => {
+		if (!sidebar || !sidebarOverlay) {
+			return;
+		}
+
+		if (window.innerWidth <= 768) {
+			sidebar.classList.add("open");
+			sidebarOverlay.classList.add("open");
+		}
+	};
+
+	const setActiveIndex = (nextIndex, shouldScroll = true) => {
+		if (!navState.focusMode || navState.items.length === 0) {
+			navState.activeIndex = -1;
+			setActiveItemStyles(null);
+			return;
+		}
+
+		navState.activeIndex = nextIndex;
+		const activeItem = navState.items[navState.activeIndex] || null;
+		revealSummaryInTree(activeItem);
+		setActiveItemStyles(activeItem);
+		if (activeItem && shouldScroll && sidebar) {
+			const sidebarRect = sidebar.getBoundingClientRect();
+			const itemRect = activeItem.getBoundingClientRect();
+			if (itemRect.top < sidebarRect.top) {
+				sidebar.scrollTop -= sidebarRect.top - itemRect.top;
+			} else if (itemRect.bottom > sidebarRect.bottom) {
+				sidebar.scrollTop += itemRect.bottom - sidebarRect.bottom;
+			}
+		}
+	};
+
+	const refreshNavItems = (shouldScroll = false) => {
+		const previousActiveItem = navState.items[navState.activeIndex] || null;
+		navState.items = getSelectableItems();
+		navState.currentItem = getCurrentNavItem();
+
+		if (navState.items.length === 0) {
+			navState.activeIndex = -1;
+			setActiveItemStyles(null);
+			return;
+		}
+
+		if (previousActiveItem) {
+			const previousIndex = navState.items.indexOf(previousActiveItem);
+			if (previousIndex >= 0) {
+				setActiveIndex(previousIndex, shouldScroll);
+				return;
+			}
+		}
+
+		const currentIndex = navState.currentItem
+			? navState.items.indexOf(navState.currentItem)
+			: -1;
+		setActiveIndex(currentIndex >= 0 ? currentIndex : 0, shouldScroll);
+	};
+
+	const enableNavFocusMode = () => {
+		if (!sidebar) {
+			return;
+		}
+
+		navState.focusMode = true;
+		sidebar.classList.add("kbd-nav-focus");
+		openSidebarForKeyboardFocus();
+		refreshNavItems(true);
+		sidebar.focus({ preventScroll: true });
+	};
+
+	const disableNavFocusMode = () => {
+		if (!sidebar) {
+			return;
+		}
+
+		navState.focusMode = false;
+		navState.items = [];
+		navState.activeIndex = -1;
+		sidebar.classList.remove("kbd-nav-focus");
+		setActiveItemStyles(null);
+	};
+
+	const toggleNavFocusMode = () => {
+		if (navState.focusMode) {
+			disableNavFocusMode();
+			return;
+		}
+
+		enableNavFocusMode();
+	};
+
+	const moveActiveSelection = (delta) => {
+		if (!navState.focusMode) {
+			return;
+		}
+
+		refreshNavItems();
+		const itemCount = navState.items.length;
+		if (itemCount === 0) {
+			return;
+		}
+
+		const baseIndex = navState.activeIndex >= 0 ? navState.activeIndex : 0;
+		const nextIndex = (baseIndex + delta + itemCount) % itemCount;
+		setActiveIndex(nextIndex, true);
+	};
+
+	const expandActiveDirectory = () => {
+		if (!navState.focusMode) {
+			return false;
+		}
+
+		const activeItem = navState.items[navState.activeIndex];
+		if (!activeItem || activeItem.tagName !== "SUMMARY") {
+			return false;
+		}
+
+		const details = activeItem.closest("details");
+		if (!details || details.open) {
+			return false;
+		}
+
+		details.open = true;
+		refreshNavItems();
+		const sameItemIndex = navState.items.indexOf(activeItem);
+		if (sameItemIndex >= 0) {
+			setActiveIndex(sameItemIndex, true);
+		}
+		return true;
+	};
+
+	const openActiveItem = () => {
+		if (!navState.focusMode) {
+			return;
+		}
+
+		const activeItem = navState.items[navState.activeIndex];
+		if (!activeItem) {
+			return;
+		}
+
+		if (activeItem.tagName === "SUMMARY") {
+			expandActiveDirectory();
+			return;
+		}
+
+		if (activeItem.tagName === "A" && activeItem.href) {
+			disableNavFocusMode();
+			window.location.href = activeItem.href;
+		}
+	};
+
 	if (menuToggle && sidebar && sidebarOverlay) {
 		const toggleMenu = () => {
 			sidebar.classList.toggle('open');
@@ -148,6 +399,100 @@
 			}
 		});
 	}
+
+	if (sidebar) {
+		sidebar.setAttribute("tabindex", "-1");
+		sidebar.addEventListener("click", (event) => {
+			if (!navState.focusMode) {
+				return;
+			}
+
+			const clickedItem = event.target.closest(NAV_ITEM_SELECTOR);
+			if (!clickedItem) {
+				return;
+			}
+
+			refreshNavItems();
+			const clickedIndex = navState.items.indexOf(clickedItem);
+			if (clickedIndex >= 0) {
+				setActiveIndex(clickedIndex, false);
+			}
+		});
+	}
+
+	window.addEventListener("keydown", (event) => {
+		if (isEditableTarget(event.target)) {
+			return;
+		}
+
+		const consumeNavEvent = () => {
+			event.preventDefault();
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+		};
+
+		const lowerKey = event.key.toLowerCase();
+		const code = event.code || "";
+		const hasPrimaryModifier = event.ctrlKey || event.metaKey;
+		if (
+			hasPrimaryModifier &&
+			!event.altKey &&
+			!event.shiftKey &&
+			(lowerKey === "b" || code === "KeyB")
+		) {
+			consumeNavEvent();
+			toggleNavFocusMode();
+			return;
+		}
+
+		if (
+			event.altKey &&
+			!hasPrimaryModifier &&
+			!event.shiftKey &&
+			(lowerKey === "/" || code === "Slash")
+		) {
+			consumeNavEvent();
+			toggleNavFocusMode();
+			return;
+		}
+
+		if (!navState.focusMode) {
+			return;
+		}
+
+		if (hasPrimaryModifier || event.altKey) {
+			return;
+		}
+
+		if (lowerKey === "escape" || code === "Escape") {
+			consumeNavEvent();
+			disableNavFocusMode();
+			return;
+		}
+
+		if (lowerKey === "arrowdown" || code === "ArrowDown" || lowerKey === "j" || code === "KeyJ") {
+			consumeNavEvent();
+			moveActiveSelection(1);
+			return;
+		}
+
+		if (lowerKey === "arrowup" || code === "ArrowUp" || lowerKey === "k" || code === "KeyK") {
+			consumeNavEvent();
+			moveActiveSelection(-1);
+			return;
+		}
+
+		if (lowerKey === "arrowright" || code === "ArrowRight" || lowerKey === "l" || code === "KeyL") {
+			consumeNavEvent();
+			expandActiveDirectory();
+			return;
+		}
+
+		if (lowerKey === "enter" || code === "Enter") {
+			consumeNavEvent();
+			openActiveItem();
+		}
+	}, true);
 </script>
 {{/if}}
 <script>
