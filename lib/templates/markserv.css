@@ -690,8 +690,10 @@ a.button.back {
   border-right: 1px solid var(--border);
   background-color: var(--bg0_h);
   padding: 16px;
+  padding-bottom: 220px;
   overflow-y: auto;
   box-sizing: border-box;
+  position: relative;
 }
 
 .nav-tree {
@@ -975,8 +977,8 @@ body .markdown-body {
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.1;
-  color: var(--blue);
-  text-shadow: 0 0 12px rgba(111, 193, 255, 0.35);
+  color: var(--yellow);
+  text-shadow: 0 0 12px var(--title-glow, rgba(255, 215, 0, 0.35));
   word-break: break-all;
 }
 
@@ -986,4 +988,20 @@ body .markdown-body {
 .sidebar .nav-tree li,
 .sidebar .nav-tree summary span {
   font-size: 13px;
+}
+
+.sidebar-theme-ascii {
+  margin: 0;
+  position: absolute;
+  left: 16px;
+  bottom: 12px;
+  white-space: pre;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 8px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--sidebar-ascii-color, #d7dce6);
+  opacity: 0.86;
+  user-select: none;
+  pointer-events: none;
 }

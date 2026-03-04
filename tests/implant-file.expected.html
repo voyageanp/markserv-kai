@@ -4,8 +4,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>implant-file.render-fixture.md</title>
+	<title>tests</title>
 	<meta charset="utf-8">
+	<meta name="theme-color" content="#292A2B">
+	<link rel="icon" type="image/svg+xml" href="{markserv}icons/markserv-mk.svg">
+	<link rel="shortcut icon" href="{markserv}icons/markserv-mk.svg">
 	<link rel="stylesheet" href="{markserv}templates/markserv.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">
 	<link rel="stylesheet" href="{markserv}icons/icons.css">
@@ -15,24 +18,33 @@
 	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
+			const themeMeta = document.querySelector('meta[name="theme-color"]');
+			const rootStyles = getComputedStyle(document.documentElement);
+			const cssVar = (name, fallback) => {
+				const value = rootStyles.getPropertyValue(name).trim();
+				return value || fallback;
+			};
+			if (themeMeta) {
+				themeMeta.setAttribute("content", cssVar("--bg", "#292A2B"));
+			}
 			mermaid.initialize({
 				startOnLoad: true,
 				theme: 'base',
 				themeVariables: {
 					fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',
-					primaryColor: '#373B41',
-					primaryTextColor: '#E6E6E6',
-					primaryBorderColor: '#676B79',
-					lineColor: '#6FC1FF',
-					secondaryColor: '#3E4250',
-					tertiaryColor: '#242526',
-					mainBkg: '#292A2B',
-					nodeBorder: '#676B79',
-					clusterBkg: '#373B41',
-					clusterBorder: '#676B79',
-					defaultLinkColor: '#6FC1FF',
-					titleColor: '#E6E6E6',
-					edgeLabelBackground: '#373B41'
+					primaryColor: cssVar('--bg1', '#373B41'),
+					primaryTextColor: cssVar('--fg', '#E6E6E6'),
+					primaryBorderColor: cssVar('--gray', '#676B79'),
+					lineColor: cssVar('--blue', '#6FC1FF'),
+					secondaryColor: cssVar('--bg2', '#3E4250'),
+					tertiaryColor: cssVar('--bg0_h', '#242526'),
+					mainBkg: cssVar('--bg', '#292A2B'),
+					nodeBorder: cssVar('--gray', '#676B79'),
+					clusterBkg: cssVar('--bg1', '#373B41'),
+					clusterBorder: cssVar('--gray', '#676B79'),
+					defaultLinkColor: cssVar('--blue', '#6FC1FF'),
+					titleColor: cssVar('--fg', '#E6E6E6'),
+					edgeLabelBackground: cssVar('--bg1', '#373B41')
 				},
 				flowchart: {
 					curve: 'basis'
@@ -51,9 +63,9 @@
 </head>
 <body>
 <div class="layout-container">
-	<aside class="sidebar" id="sidebar">
-		<h2 class="sidebar-root-stem">tests</h2>
-		<ul class="nav-tree">
+		<aside class="sidebar" id="sidebar">
+			<h2 class="sidebar-root-stem">tests</h2>
+			<ul class="nav-tree">
 	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>
 <ul class="nav-tree">
 	<li class="isfile "><a href="/markserv-cli-readme/README.md">README.md</a></li>
@@ -88,7 +100,8 @@
 	<li class="isfile "><a href="/测试.md">测试.md</a></li>
 </ul>
 
-	</aside>
+			<pre class="sidebar-theme-ascii" id="sidebar-theme-ascii" aria-hidden="true"></pre>
+		</aside>
 	<div class="sidebar-overlay" id="sidebar-overlay"></div>
 	<article class="markdown-body">
 		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
@@ -104,7 +117,7 @@
 	<h1 id="implant-file" data-ms-section-index="0">Implant File</h1>
 <p data-ms-section-index="1">YOU TOO SHALL PASS</p>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 61309</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 16049</sup></footer>
 	</article>
 	<div class="ms-mobile-editor-backdrop" id="ms-mobile-editor-backdrop"></div>
 	<div class="ms-mobile-editor" id="ms-mobile-editor" aria-hidden="true">
@@ -125,6 +138,29 @@
 	const menuToggle = document.getElementById('menu-toggle');
 	const sidebar = document.getElementById('sidebar');
 	const sidebarOverlay = document.getElementById('sidebar-overlay');
+	const sidebarThemeAscii = document.getElementById('sidebar-theme-ascii');
+
+	const decodeCssString = (rawValue) => {
+		if (!rawValue) {
+			return "";
+		}
+
+		let value = rawValue.trim();
+		if (value.startsWith("\"") && value.endsWith("\"")) {
+			value = value.slice(1, -1);
+		}
+
+		return value
+			.replaceAll(/\\A\s?/g, "\n")
+			.replaceAll("\\\"", "\"")
+			.replaceAll("\\\\", "\\");
+	};
+
+	if (sidebarThemeAscii) {
+		const cssAscii = getComputedStyle(document.documentElement)
+			.getPropertyValue("--theme-ascii");
+		sidebarThemeAscii.textContent = decodeCssString(cssAscii);
+	}
 
 	if (menuToggle && sidebar && sidebarOverlay) {
 		const toggleMenu = () => {

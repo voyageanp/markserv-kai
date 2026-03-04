@@ -6,27 +6,39 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{title}}</title>
     <meta charset="utf-8" />
+    <meta name="theme-color" content="#292A2B" />
+    <link rel="icon" type="image/svg+xml" href="{markserv}icons/markserv-mk.svg" />
+    <link rel="shortcut icon" href="{markserv}icons/markserv-mk.svg" />
     <link rel="stylesheet" href="{markserv}templates/markserv.css" />
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
-      mermaid.initialize({ 
+      const rootStyles = getComputedStyle(document.documentElement);
+      const cssVar = (name, fallback) => {
+        const value = rootStyles.getPropertyValue(name).trim();
+        return value || fallback;
+      };
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) {
+        themeMeta.setAttribute("content", cssVar("--bg", "#292A2B"));
+      }
+      mermaid.initialize({
         startOnLoad: true,
         theme: 'base',
         themeVariables: {
           fontFamily: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif',
-          primaryColor: '#373B41',
-          primaryTextColor: '#E6E6E6',
-          primaryBorderColor: '#676B79',
-          lineColor: '#6FC1FF',
-          secondaryColor: '#3E4250',
-          tertiaryColor: '#242526',
-          mainBkg: '#292A2B',
-          nodeBorder: '#676B79',
-          clusterBkg: '#373B41',
-          clusterBorder: '#676B79',
-          defaultLinkColor: '#6FC1FF',
-          titleColor: '#E6E6E6',
-          edgeLabelBackground: '#373B41'
+          primaryColor: cssVar('--bg1', '#373B41'),
+          primaryTextColor: cssVar('--fg', '#E6E6E6'),
+          primaryBorderColor: cssVar('--gray', '#676B79'),
+          lineColor: cssVar('--blue', '#6FC1FF'),
+          secondaryColor: cssVar('--bg2', '#3E4250'),
+          tertiaryColor: cssVar('--bg0_h', '#242526'),
+          mainBkg: cssVar('--bg', '#292A2B'),
+          nodeBorder: cssVar('--gray', '#676B79'),
+          clusterBkg: cssVar('--bg1', '#373B41'),
+          clusterBorder: cssVar('--gray', '#676B79'),
+          defaultLinkColor: cssVar('--blue', '#6FC1FF'),
+          titleColor: cssVar('--fg', '#E6E6E6'),
+          edgeLabelBackground: cssVar('--bg1', '#373B41')
         },
         flowchart: {
           curve: 'basis'
@@ -47,6 +59,7 @@
           {{#if hasNavTree}}
           {{{navTree}}}
           {{/if}}
+          <pre class="sidebar-theme-ascii" id="sidebar-theme-ascii" aria-hidden="true"></pre>
         </aside>
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
       {{/if}}
@@ -73,6 +86,29 @@
       const menuToggle = document.getElementById('menu-toggle');
       const sidebar = document.getElementById('sidebar');
       const sidebarOverlay = document.getElementById('sidebar-overlay');
+      const sidebarThemeAscii = document.getElementById('sidebar-theme-ascii');
+
+      const decodeCssString = (rawValue) => {
+        if (!rawValue) {
+          return '';
+        }
+
+        let value = rawValue.trim();
+        if (value.startsWith('"') && value.endsWith('"')) {
+          value = value.slice(1, -1);
+        }
+
+        return value
+          .replaceAll(/\\A\s?/g, '\n')
+          .replaceAll('\\"', '"')
+          .replaceAll('\\\\', '\\');
+      };
+
+      if (sidebarThemeAscii) {
+        const cssAscii = getComputedStyle(document.documentElement)
+          .getPropertyValue('--theme-ascii');
+        sidebarThemeAscii.textContent = decodeCssString(cssAscii);
+      }
       
       if (menuToggle && sidebar && sidebarOverlay) {
         const toggleMenu = () => {

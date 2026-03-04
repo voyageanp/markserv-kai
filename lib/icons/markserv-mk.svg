@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Markserv MK Logo</title>
+  <desc id="desc">Dark rounded square with stylized letters M and K.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10151F"/>
+      <stop offset="100%" stop-color="#202938"/>
+    </linearGradient>
+    <linearGradient id="mk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6FC1FF"/>
+      <stop offset="55%" stop-color="#6FE7D2"/>
+      <stop offset="100%" stop-color="#FFB86C"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="url(#bg)"/>
+  <path d="M28 94V34h12l14 21 14-21h12v60H68V55L54 76 40 55v39H28z" fill="url(#mk)"/>
+  <path d="M90 34h10v24l18-24h12L108 62l23 32h-13L100 69v25H90V34z" fill="url(#mk)"/>
+</svg>
