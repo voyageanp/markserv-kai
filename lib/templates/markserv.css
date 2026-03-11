@@ -793,6 +793,38 @@ body .markdown-body {
   z-index: 1000;
 }
 
+.ms-mobile-tree-nav {
+  display: none;
+  margin: 18px 0 10px;
+  gap: 10px;
+}
+
+.ms-mobile-tree-nav-button {
+  flex: 1;
+  border: 1px solid var(--gray);
+  background-color: var(--bg1);
+  color: var(--fg);
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ms-mobile-tree-nav-button:hover:not(:disabled) {
+  background-color: var(--bg2);
+}
+
+.ms-mobile-tree-nav-button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.ms-mobile-tree-nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* Sidebar Overlay for mobile */
 .sidebar-overlay {
   display: none;
@@ -825,6 +857,10 @@ body .markdown-body {
 @media screen and (max-width: 768px) {
   .menu-toggle {
     display: block; /* Show hamburger menu */
+  }
+
+  .ms-mobile-tree-nav {
+    display: flex;
   }
 
   body .markdown-body {

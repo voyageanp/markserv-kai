@@ -172,7 +172,11 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 43810</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 36539</sup></footer>
+	<div class="ms-mobile-tree-nav" id="ms-mobile-tree-nav" aria-label="Tree navigation">
+		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-prev" aria-label="Previous page in tree">←</button>
+		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-next" aria-label="Next page in tree">→</button>
+	</div>
 	</article>
 	<div class="ms-mobile-editor-backdrop" id="ms-mobile-editor-backdrop"></div>
 	<div class="ms-mobile-editor" id="ms-mobile-editor" aria-hidden="true">
@@ -194,12 +198,17 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 	const sidebar = document.getElementById('sidebar');
 	const sidebarOverlay = document.getElementById('sidebar-overlay');
 	const sidebarThemeAscii = document.getElementById('sidebar-theme-ascii');
+	const mobileTreeNav = document.getElementById("ms-mobile-tree-nav");
+	const mobileTreePrevButton = document.getElementById("ms-mobile-tree-prev");
+	const mobileTreeNextButton = document.getElementById("ms-mobile-tree-next");
 	const NAV_ITEM_SELECTOR = ".nav-tree summary, .nav-tree li.isfile > a";
 	const NAV_ACTIVE_CLASSES = [
 		"kbd-nav-active",
 		"kbd-nav-active-current",
 		"kbd-nav-active-different",
 	];
+	let mobileTreePrevHref = null;
+	let mobileTreeNextHref = null;
 	const navState = {
 		focusMode: false,
 		items: [],
@@ -269,6 +278,67 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 	const getSelectableItems = () => sidebar
 		? [...sidebar.querySelectorAll(NAV_ITEM_SELECTOR)].filter(isVisibleInTree)
 		: [];
+
+	const getTreeFileLinks = () => sidebar
+		? [...sidebar.querySelectorAll(".nav-tree li.isfile > a")]
+		: [];
+
+	const normalizePathname = (pathname) => {
+		if (typeof pathname !== "string") {
+			return "";
+		}
+
+		if (pathname === "/") {
+			return pathname;
+		}
+
+		return pathname.replaceAll(/\/+$/g, "");
+	};
+
+	const getCurrentTreeFileIndex = (links) => {
+		if (links.length === 0) {
+			return -1;
+		}
+
+		const currentFile = sidebar
+			? sidebar.querySelector(".nav-tree li.current > a")
+			: null;
+		if (currentFile) {
+			return links.indexOf(currentFile);
+		}
+
+		const currentPath = normalizePathname(window.location.pathname);
+		return links.findIndex((link) => {
+			try {
+				const linkUrl = new URL(link.href, window.location.href);
+				return normalizePathname(linkUrl.pathname) === currentPath;
+			} catch {
+				return false;
+			}
+		});
+	};
+
+	const updateMobileTreeNavButtons = () => {
+		if (!mobileTreeNav || !mobileTreePrevButton || !mobileTreeNextButton) {
+			return;
+		}
+
+		const links = getTreeFileLinks();
+		const currentIndex = getCurrentTreeFileIndex(links);
+		const previousLink = currentIndex > 0 ? links[currentIndex - 1] : null;
+		const nextLink = (
+			currentIndex >= 0 &&
+			currentIndex < links.length - 1
+		)
+			? links[currentIndex + 1]
+			: null;
+
+		mobileTreePrevHref = previousLink ? previousLink.href : null;
+		mobileTreeNextHref = nextLink ? nextLink.href : null;
+
+		mobileTreePrevButton.disabled = !mobileTreePrevHref;
+		mobileTreeNextButton.disabled = !mobileTreeNextHref;
+	};
 
 	const revealSummaryInTree = (summary) => {
 		if (!summary || !sidebar) {
@@ -467,6 +537,25 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			window.location.href = activeItem.href;
 		}
 	};
+
+	const navigateTreeOnMobile = (direction) => {
+		const targetHref = direction < 0 ? mobileTreePrevHref : mobileTreeNextHref;
+		if (!targetHref) {
+			return;
+		}
+
+		window.location.href = targetHref;
+	};
+
+	if (mobileTreePrevButton && mobileTreeNextButton) {
+		mobileTreePrevButton.addEventListener("click", () => {
+			navigateTreeOnMobile(-1);
+		});
+		mobileTreeNextButton.addEventListener("click", () => {
+			navigateTreeOnMobile(1);
+		});
+		updateMobileTreeNavButtons();
+	}
 
 	if (menuToggle && sidebar && sidebarOverlay) {
 		const toggleMenu = () => {

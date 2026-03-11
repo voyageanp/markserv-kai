@@ -37,6 +37,25 @@ const assertKeyboardSidebarMarkers = (t, html) => {
 	t.true(html.includes("Slash"));
 };
 
+const assertMobileTreeNavMarkersForMarkdown = (t, html) => {
+	t.true(html.includes("ms-mobile-tree-nav"));
+	t.true(html.includes("ms-mobile-tree-prev"));
+	t.true(html.includes("ms-mobile-tree-next"));
+	t.true(html.includes("getTreeFileLinks"));
+	t.true(html.includes("getCurrentTreeFileIndex"));
+	t.true(html.includes("updateMobileTreeNavButtons"));
+	t.true(html.includes("navigateTreeOnMobile"));
+	t.true(html.includes("mobileTreePrevButton.disabled"));
+	t.true(html.includes("mobileTreeNextButton.disabled"));
+};
+
+const assertNoMobileTreeNavMarkersForDirectory = (t, html) => {
+	t.false(html.includes("ms-mobile-tree-nav"));
+	t.false(html.includes("ms-mobile-tree-prev"));
+	t.false(html.includes("ms-mobile-tree-next"));
+	t.false(html.includes("updateMobileTreeNavButtons"));
+};
+
 test("renders sidebar keyboard focus mode script for markdown and directory pages", async t => {
 	const port = await getPort();
 	const flags = {
@@ -57,12 +76,14 @@ test("renders sidebar keyboard focus mode script for markdown and directory page
 		);
 		t.is(markdownResponse.statusCode, 200);
 		assertKeyboardSidebarMarkers(t, markdownHtml);
+		assertMobileTreeNavMarkersForMarkdown(t, markdownHtml);
 
 		const { response: directoryResponse, body: directoryHtml } = await fetchBody(
 			`http://localhost:${port}/tests/testdir/`
 		);
 		t.is(directoryResponse.statusCode, 200);
 		assertKeyboardSidebarMarkers(t, directoryHtml);
+		assertNoMobileTreeNavMarkersForDirectory(t, directoryHtml);
 	} finally {
 		await new Promise(resolve => {
 			service.httpServer.close(() => {
