@@ -64,6 +64,36 @@
 <body>
 <div class="layout-container">
 		<aside class="sidebar" id="sidebar">
+			<div class="sidebar-jellyfish-layer" aria-hidden="true" id="sidebar-jellyfish-layer">
+				<pre class="sidebar-jelly sidebar-jelly-a">  .~·~.
+ / · · \
+(  ~~~  )
+ \_____/
+   ||||
+   ||||
+  / || \</pre>
+				<pre class="sidebar-jelly sidebar-jelly-b"> .·.
+(   )
+`·-·`
+ |||
+/|||</pre>
+				<pre class="sidebar-jelly sidebar-jelly-c">.--.
+(~ ~)
+`--`
+ ||
+/||\</pre>
+				<pre class="sidebar-jelly sidebar-jelly-d"> .~~.
+( ·· )
+`~~~~`
+  ||
+  ||
+ /||</pre>
+				<pre class="sidebar-jelly sidebar-jelly-e">.·.
+( )
+`·`
+ |
+/|\</pre>
+			</div>
 			<h2 class="sidebar-root-stem">markserv</h2>
 			<ul class="nav-tree">
 	<li><details open><summary class="folder"><span>tests</span></summary>
@@ -236,6 +266,28 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 		const cssAscii = getComputedStyle(document.documentElement)
 			.getPropertyValue("--theme-ascii");
 		sidebarThemeAscii.textContent = decodeCssString(cssAscii);
+	}
+
+	// Jellyfish scroll parallax
+	const jellyLayer = document.getElementById("sidebar-jellyfish-layer");
+	const mainArticle = document.querySelector("article.markdown-body");
+	if (jellyLayer && mainArticle) {
+		const jellies = jellyLayer.querySelectorAll(".sidebar-jelly");
+		const parallaxFactors = [0.12, -0.08, 0.15, -0.06, 0.10];
+		let ticking = false;
+		mainArticle.addEventListener("scroll", () => {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(() => {
+				const scrollRatio = mainArticle.scrollTop /
+					Math.max(1, mainArticle.scrollHeight - mainArticle.clientHeight);
+				jellies.forEach((jelly, i) => {
+					const shift = scrollRatio * 120 * (parallaxFactors[i] || 0.1);
+					jelly.style.setProperty("--scroll-shift", `${shift}px`);
+				});
+				ticking = false;
+			});
+		});
 	}
 
 	const isEditableTarget = (target) => {
