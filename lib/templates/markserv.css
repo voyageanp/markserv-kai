@@ -13,6 +13,7 @@
   --aqua: #6FE7D2;
   --orange: #FFB86C;
   --border: #373B41;
+  --accent: #6FC1FF;
 }
 
 body {
@@ -190,7 +191,7 @@ li.icon {
     "Segoe UI Symbol";
 }
 .markdown-body a {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: none;
 }
 .markdown-body a:hover,
@@ -369,7 +370,7 @@ li.icon {
   font-size: 2.25em;
   line-height: 1.2;
   border-bottom: 1px solid var(--border);
-  color: var(--yellow);
+  color: var(--accent);
 }
 .markdown-body h2 {
   padding-bottom: 0.3em;
@@ -419,7 +420,7 @@ li.icon {
 
 .markdown-body ul > li::marker,
 .markdown-body ol > li::marker {
-  color: var(--blue);
+  color: var(--accent);
 }
 .markdown-body ul ul,
 .markdown-body ul ol,
@@ -448,7 +449,7 @@ li.icon {
 .markdown-body blockquote {
   padding: 0 15px;
   color: var(--fg);
-  border-left: 4px solid var(--yellow);
+  border-left: 4px solid var(--accent);
 }
 .markdown-body blockquote > :first-child {
   margin-top: 0;
@@ -1047,7 +1048,7 @@ body .markdown-body {
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.1;
-  color: var(--yellow);
+  color: var(--accent);
   text-shadow: 0 0 12px var(--title-glow, rgba(255, 215, 0, 0.35));
   word-break: break-all;
 }
