@@ -157,7 +157,7 @@
             ><hr />
             Served by
             <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID:
-            3095</sup
+            9396</sup
           >
         </footer>
       </article>
@@ -315,6 +315,15 @@
 
         const treeRoot = sidebarPanelTree || sidebar;
         return [...treeRoot.querySelectorAll(TREE_NAV_ITEM_SELECTOR)].filter(isVisibleInTree);
+      };
+
+      const getRecentFileLinks = () => {
+        if (!sidebar) {
+          return [];
+        }
+
+        const panel = sidebarPanelRecent || sidebar;
+        return [...panel.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
       };
 
       const revealSummaryInTree = (summary) => {
@@ -553,6 +562,44 @@
           window.location.href = activeItem.href;
         }
       };
+
+      const navigateRecentByArrow = (direction) => {
+        if (sidebarMode !== SIDEBAR_MODE_RECENT) {
+          return false;
+        }
+
+        const links = getRecentFileLinks();
+        if (links.length === 0) {
+          return false;
+        }
+
+        const currentPath = normalizePathname(window.location.pathname);
+        const currentIndex = links.findIndex((link) => {
+          try {
+            const linkUrl = new URL(link.href, window.location.href);
+            return normalizePathname(linkUrl.pathname) === currentPath;
+          } catch {
+            return false;
+          }
+        });
+
+        if (currentIndex < 0) {
+          return false;
+        }
+
+        const nextIndex = currentIndex + direction;
+        if (nextIndex < 0 || nextIndex >= links.length) {
+          return false;
+        }
+
+        const targetHref = links[nextIndex].href;
+        if (!targetHref) {
+          return false;
+        }
+
+        window.location.href = targetHref;
+        return true;
+      };
       
       if (menuToggle && sidebar && sidebarOverlay) {
         const toggleMenu = () => {
@@ -668,7 +715,20 @@
 
         if (lowerKey === 'arrowright' || code === 'ArrowRight' || lowerKey === 'l' || code === 'KeyL') {
           consumeNavEvent();
+          if (sidebarMode === SIDEBAR_MODE_RECENT) {
+            navigateRecentByArrow(1);
+            return;
+          }
+
           expandActiveDirectory();
+          return;
+        }
+
+        if (lowerKey === 'arrowleft' || code === 'ArrowLeft' || lowerKey === 'h' || code === 'KeyH') {
+          consumeNavEvent();
+          if (sidebarMode === SIDEBAR_MODE_RECENT) {
+            navigateRecentByArrow(-1);
+          }
           return;
         }
 

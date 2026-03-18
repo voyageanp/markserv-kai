@@ -40,6 +40,7 @@ const assertKeyboardSidebarMarkers = (t, html) => {
 	t.true(html.includes("ArrowDown"));
 	t.true(html.includes("ArrowUp"));
 	t.true(html.includes("ArrowRight"));
+	t.true(html.includes("ArrowLeft"));
 	t.true(html.includes("Slash"));
 };
 
@@ -48,6 +49,7 @@ const assertMobileTreeNavMarkersForMarkdown = (t, html) => {
 	t.true(html.includes("ms-mobile-tree-prev"));
 	t.true(html.includes("ms-mobile-tree-next"));
 	t.true(html.includes("getTreeFileLinks"));
+	t.true(html.includes("getRecentFileLinks"));
 	t.true(html.includes("getCurrentTreeFileIndex"));
 	t.true(html.includes("updateMobileTreeNavButtons"));
 	t.true(html.includes("navigateTreeOnMobile"));

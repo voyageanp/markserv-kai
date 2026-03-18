@@ -246,7 +246,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 3095</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 8990</sup></footer>
 	<div class="ms-mobile-tree-nav" id="ms-mobile-tree-nav" aria-label="Tree navigation">
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-prev" aria-label="Previous page in tree">←</button>
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-next" aria-label="Next page in tree">→</button>
@@ -446,6 +446,15 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 		return [...treeRoot.querySelectorAll(".nav-tree li.isfile > a")];
 	};
 
+	const getRecentFileLinks = () => {
+		if (!sidebar) {
+			return [];
+		}
+
+		const recentRoot = sidebarPanelRecent || sidebar;
+		return [...recentRoot.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
+	};
+
 	const normalizePathname = (pathname) => {
 		if (typeof pathname !== "string") {
 			return "";
@@ -463,12 +472,14 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			return -1;
 		}
 
-		const treeRoot = sidebarPanelTree || sidebar;
-		const currentFile = treeRoot
-			? treeRoot.querySelector(".nav-tree li.current > a")
-			: null;
-		if (currentFile) {
-			return links.indexOf(currentFile);
+		if (sidebarMode === SIDEBAR_MODE_TREE) {
+			const treeRoot = sidebarPanelTree || sidebar;
+			const currentFile = treeRoot
+				? treeRoot.querySelector(".nav-tree li.current > a")
+				: null;
+			if (currentFile) {
+				return links.indexOf(currentFile);
+			}
 		}
 
 		const currentPath = normalizePathname(window.location.pathname);
@@ -487,7 +498,9 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			return;
 		}
 
-		const links = getTreeFileLinks();
+		const links = sidebarMode === SIDEBAR_MODE_RECENT
+			? getRecentFileLinks()
+			: getTreeFileLinks();
 		const currentIndex = getCurrentTreeFileIndex(links);
 		const previousLink = currentIndex > 0 ? links[currentIndex - 1] : null;
 		const nextLink = (
@@ -743,6 +756,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 	};
 
 	const navigateTreeOnMobile = (direction) => {
+		updateMobileTreeNavButtons();
 		const targetHref = direction < 0 ? mobileTreePrevHref : mobileTreeNextHref;
 		if (!targetHref) {
 			return;
@@ -875,7 +889,20 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 
 		if (lowerKey === "arrowright" || code === "ArrowRight" || lowerKey === "l" || code === "KeyL") {
 			consumeNavEvent();
+			if (sidebarMode === SIDEBAR_MODE_RECENT) {
+				navigateTreeOnMobile(1);
+				return;
+			}
+
 			expandActiveDirectory();
+			return;
+		}
+
+		if (lowerKey === "arrowleft" || code === "ArrowLeft" || lowerKey === "h" || code === "KeyH") {
+			consumeNavEvent();
+			if (sidebarMode === SIDEBAR_MODE_RECENT) {
+				navigateTreeOnMobile(-1);
+			}
 			return;
 		}
 
