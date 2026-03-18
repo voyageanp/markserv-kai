@@ -95,7 +95,16 @@
 /|\</pre>
 			</div>
 			<h2 class="sidebar-root-stem">markserv</h2>
-			<ul class="nav-tree">
+			<div class="sidebar-mode-toggle" id="sidebar-mode-toggle" role="group" aria-label="Sidebar mode">
+				<button type="button" class="sidebar-mode-button" id="sidebar-mode-tree" aria-pressed="true">
+					Tree
+				</button>
+				<button type="button" class="sidebar-mode-button" id="sidebar-mode-recent" aria-pressed="false">
+					Recent
+				</button>
+			</div>
+			<div class="sidebar-panel sidebar-panel-tree" id="sidebar-panel-tree">
+				<div id="ms-nav-tree-root"><ul class="nav-tree">
 	<li><details open><summary class="folder"><span>tests</span></summary>
 <ul class="nav-tree">
 	<li><details ><summary class="folder"><span>markserv-cli-readme</span></summary>
@@ -135,7 +144,42 @@
 	<li class="isfile "><a href="/CHANGELOG.md">CHANGELOG.md</a></li>
 	<li class="isfile "><a href="/README.md">README.md</a></li>
 </ul>
-
+</div>
+			</div>
+			<div class="sidebar-panel sidebar-panel-recent" id="sidebar-panel-recent" hidden>
+				<ul class="sidebar-recent-list">
+					<li class="sidebar-recent-item ">
+						<a href="/README.md">README.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/CHANGELOG.md">CHANGELOG.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/implant-file.render-fixture.md">tests/implant-file.render-fixture.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/%E6%B5%8B%E8%AF%95.md">tests/测试.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/toc.md">tests/toc.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/testdir/file1.md">tests/testdir/file1.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/templates/subdir/sub-article.md">tests/templates/subdir/sub-article.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/templates/header.md">tests/templates/header.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/templates/footer.md">tests/templates/footer.md</a>
+					</li>
+					<li class="sidebar-recent-item ">
+						<a href="/tests/templates/article.md">tests/templates/article.md</a>
+					</li>
+				</ul>
+			</div>
 			<pre class="sidebar-theme-ascii" id="sidebar-theme-ascii" aria-hidden="true"></pre>
 		</aside>
 	<div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -202,7 +246,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 36539</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 3095</sup></footer>
 	<div class="ms-mobile-tree-nav" id="ms-mobile-tree-nav" aria-label="Tree navigation">
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-prev" aria-label="Previous page in tree">←</button>
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-next" aria-label="Next page in tree">→</button>
@@ -228,10 +272,19 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 	const sidebar = document.getElementById('sidebar');
 	const sidebarOverlay = document.getElementById('sidebar-overlay');
 	const sidebarThemeAscii = document.getElementById('sidebar-theme-ascii');
+	const sidebarModeTreeButton = document.getElementById("sidebar-mode-tree");
+	const sidebarModeRecentButton = document.getElementById("sidebar-mode-recent");
+	const sidebarPanelTree = document.getElementById("sidebar-panel-tree");
+	const sidebarPanelRecent = document.getElementById("sidebar-panel-recent");
 	const mobileTreeNav = document.getElementById("ms-mobile-tree-nav");
 	const mobileTreePrevButton = document.getElementById("ms-mobile-tree-prev");
 	const mobileTreeNextButton = document.getElementById("ms-mobile-tree-next");
-	const NAV_ITEM_SELECTOR = ".nav-tree summary, .nav-tree li.isfile > a";
+	const TREE_NAV_ITEM_SELECTOR = ".nav-tree summary, .nav-tree li.isfile > a";
+	const RECENT_NAV_ITEM_SELECTOR = ".sidebar-recent-list a";
+	const SIDEBAR_MODE_TREE = "tree";
+	const SIDEBAR_MODE_RECENT = "recent";
+	const SIDEBAR_MODE_STORAGE_KEY = "markserv.sidebarMode";
+	const SIDEBAR_MODES = new Set([SIDEBAR_MODE_TREE, SIDEBAR_MODE_RECENT]);
 	const NAV_ACTIVE_CLASSES = [
 		"kbd-nav-active",
 		"kbd-nav-active-current",
@@ -239,6 +292,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 	];
 	let mobileTreePrevHref = null;
 	let mobileTreeNextHref = null;
+	let sidebarMode = SIDEBAR_MODE_TREE;
 	const navState = {
 		focusMode: false,
 		items: [],
@@ -267,6 +321,27 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			.getPropertyValue("--theme-ascii");
 		sidebarThemeAscii.textContent = decodeCssString(cssAscii);
 	}
+
+	const readStoredSidebarMode = () => {
+		try {
+			const value = localStorage.getItem(SIDEBAR_MODE_STORAGE_KEY);
+			return SIDEBAR_MODES.has(value) ? value : SIDEBAR_MODE_TREE;
+		} catch {
+			return SIDEBAR_MODE_TREE;
+		}
+	};
+
+	const persistSidebarMode = (value) => {
+		try {
+			localStorage.setItem(SIDEBAR_MODE_STORAGE_KEY, value);
+		} catch {}
+	};
+
+	const getActiveNavSelector = () => (
+		sidebarMode === SIDEBAR_MODE_RECENT
+			? RECENT_NAV_ITEM_SELECTOR
+			: TREE_NAV_ITEM_SELECTOR
+	);
 
 	// Jellyfish scroll parallax
 	const jellyLayer = document.getElementById("sidebar-jellyfish-layer");
@@ -308,12 +383,33 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			return null;
 		}
 
-		const currentFile = sidebar.querySelector(".nav-tree li.current > a");
+		if (sidebarMode === SIDEBAR_MODE_RECENT) {
+			const panel = sidebarPanelRecent || sidebar;
+			const links = [...panel.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
+			if (links.length === 0) {
+				return null;
+			}
+
+			const currentPath = normalizePathname(window.location.pathname);
+			const currentLink = links.find((link) => {
+				try {
+					const linkUrl = new URL(link.href, window.location.href);
+					return normalizePathname(linkUrl.pathname) === currentPath;
+				} catch {
+					return false;
+				}
+			});
+
+			return currentLink || links[0];
+		}
+
+		const treeRoot = sidebarPanelTree || sidebar;
+		const currentFile = treeRoot.querySelector(".nav-tree li.current > a");
 		if (currentFile) {
 			return currentFile;
 		}
 
-		return sidebar.querySelector(NAV_ITEM_SELECTOR) || null;
+		return treeRoot.querySelector(TREE_NAV_ITEM_SELECTOR) || null;
 	};
 
 	const isVisibleInTree = (element) => {
@@ -327,13 +423,28 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 		return true;
 	};
 
-	const getSelectableItems = () => sidebar
-		? [...sidebar.querySelectorAll(NAV_ITEM_SELECTOR)].filter(isVisibleInTree)
-		: [];
+	const getSelectableItems = () => {
+		if (!sidebar) {
+			return [];
+		}
 
-	const getTreeFileLinks = () => sidebar
-		? [...sidebar.querySelectorAll(".nav-tree li.isfile > a")]
-		: [];
+		if (sidebarMode === SIDEBAR_MODE_RECENT) {
+			const panel = sidebarPanelRecent || sidebar;
+			return [...panel.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
+		}
+
+		const treeRoot = sidebarPanelTree || sidebar;
+		return [...treeRoot.querySelectorAll(TREE_NAV_ITEM_SELECTOR)].filter(isVisibleInTree);
+	};
+
+	const getTreeFileLinks = () => {
+		if (!sidebar) {
+			return [];
+		}
+
+		const treeRoot = sidebarPanelTree || sidebar;
+		return [...treeRoot.querySelectorAll(".nav-tree li.isfile > a")];
+	};
 
 	const normalizePathname = (pathname) => {
 		if (typeof pathname !== "string") {
@@ -352,8 +463,9 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 			return -1;
 		}
 
-		const currentFile = sidebar
-			? sidebar.querySelector(".nav-tree li.current > a")
+		const treeRoot = sidebarPanelTree || sidebar;
+		const currentFile = treeRoot
+			? treeRoot.querySelector(".nav-tree li.current > a")
 			: null;
 		if (currentFile) {
 			return links.indexOf(currentFile);
@@ -436,6 +548,46 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 		}
 
 		element.classList.add("kbd-nav-active-different");
+	};
+
+	const applySidebarMode = (nextMode, shouldPersist = true) => {
+		const resolvedMode = SIDEBAR_MODES.has(nextMode) ? nextMode : SIDEBAR_MODE_TREE;
+		sidebarMode = resolvedMode;
+
+		if (sidebarPanelTree) {
+			sidebarPanelTree.hidden = resolvedMode !== SIDEBAR_MODE_TREE;
+		}
+
+		if (sidebarPanelRecent) {
+			sidebarPanelRecent.hidden = resolvedMode !== SIDEBAR_MODE_RECENT;
+		}
+
+		if (sidebarModeTreeButton) {
+			const isTreeMode = resolvedMode === SIDEBAR_MODE_TREE;
+			sidebarModeTreeButton.classList.toggle("is-active", isTreeMode);
+			sidebarModeTreeButton.setAttribute("aria-pressed", isTreeMode ? "true" : "false");
+		}
+
+		if (sidebarModeRecentButton) {
+			const isRecentMode = resolvedMode === SIDEBAR_MODE_RECENT;
+			sidebarModeRecentButton.classList.toggle("is-active", isRecentMode);
+			sidebarModeRecentButton.setAttribute("aria-pressed", isRecentMode ? "true" : "false");
+		}
+
+		if (shouldPersist) {
+			persistSidebarMode(resolvedMode);
+		}
+
+		if (navState.focusMode) {
+			refreshNavItems(false);
+		} else {
+			navState.items = [];
+			navState.activeIndex = -1;
+			navState.currentItem = getCurrentNavItem();
+			setActiveItemStyles(null);
+		}
+
+		updateMobileTreeNavButtons();
 	};
 
 	const openSidebarForKeyboardFocus = () => {
@@ -546,7 +698,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 	};
 
 	const expandActiveDirectory = () => {
-		if (!navState.focusMode) {
+		if (!navState.focusMode || sidebarMode !== SIDEBAR_MODE_TREE) {
 			return false;
 		}
 
@@ -625,6 +777,20 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 		});
 	}
 
+	if (sidebarModeTreeButton) {
+		sidebarModeTreeButton.addEventListener("click", () => {
+			applySidebarMode(SIDEBAR_MODE_TREE);
+		});
+	}
+
+	if (sidebarModeRecentButton) {
+		sidebarModeRecentButton.addEventListener("click", () => {
+			applySidebarMode(SIDEBAR_MODE_RECENT);
+		});
+	}
+
+	applySidebarMode(readStoredSidebarMode(), false);
+
 	if (sidebar) {
 		sidebar.setAttribute("tabindex", "-1");
 		sidebar.addEventListener("click", (event) => {
@@ -632,7 +798,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 				return;
 			}
 
-			const clickedItem = event.target.closest(NAV_ITEM_SELECTOR);
+			const clickedItem = event.target.closest(getActiveNavSelector());
 			if (!clickedItem) {
 				return;
 			}

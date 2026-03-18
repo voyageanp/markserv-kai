@@ -21,6 +21,12 @@ const assertKeyboardSidebarMarkers = (t, html) => {
 	t.true(html.includes("kbd-nav-active-current"));
 	t.true(html.includes("kbd-nav-active-different"));
 	t.true(html.includes("li.isfile > a"));
+	t.true(html.includes("sidebar-mode-tree"));
+	t.true(html.includes("sidebar-mode-recent"));
+	t.true(html.includes("sidebar-panel-recent"));
+	t.true(html.includes("sidebar-recent-list"));
+	t.true(html.includes("markserv.sidebarMode"));
+	t.true(html.includes("getActiveNavSelector"));
 	t.true(html.includes(".nav-tree summary"));
 	t.true(html.includes("stopImmediatePropagation"));
 	t.true(/lowerKey === ["']b["']/.test(html));

@@ -697,6 +697,40 @@ a.button.back {
   position: relative;
 }
 
+.sidebar-mode-toggle {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.sidebar-mode-button {
+  flex: 1;
+  border: 1px solid var(--gray);
+  background-color: var(--bg1);
+  color: var(--fg);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar-mode-button:hover {
+  background-color: var(--bg2);
+}
+
+.sidebar-mode-button.is-active {
+  color: var(--aqua);
+  border-color: var(--aqua);
+  background-color: var(--bg0_s);
+  font-weight: 700;
+}
+
+.sidebar-panel[hidden] {
+  display: none;
+}
+
 .nav-tree {
   padding-left: 0;
   margin: 0;
@@ -737,20 +771,53 @@ a.button.back {
   color: var(--aqua);
 }
 
+.sidebar-recent-list {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sidebar-recent-item {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.sidebar-recent-item a {
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.sidebar-recent-item a:hover {
+  text-decoration: underline;
+}
+
+.sidebar-recent-item.current > a {
+  font-weight: bold;
+  color: var(--aqua);
+}
+
+.sidebar-recent-empty {
+  margin: 8px 0 0;
+  color: var(--gray);
+  font-size: 12px;
+}
+
 .sidebar.kbd-nav-focus {
   outline: 1px solid var(--purple);
   box-shadow: inset 0 0 0 1px var(--purple);
 }
 
 .sidebar .nav-tree summary.kbd-nav-active,
-.sidebar .nav-tree a.kbd-nav-active {
+.sidebar .nav-tree a.kbd-nav-active,
+.sidebar .sidebar-recent-list a.kbd-nav-active {
   border-radius: 4px;
   padding: 2px 6px;
   text-decoration: none;
 }
 
 .sidebar .nav-tree summary.kbd-nav-active-current,
-.sidebar .nav-tree a.kbd-nav-active-current {
+.sidebar .nav-tree a.kbd-nav-active-current,
+.sidebar .sidebar-recent-list a.kbd-nav-active-current {
   color: var(--green);
   background-color: var(--bg1);
   box-shadow: inset 2px 0 0 var(--green);
@@ -761,7 +828,8 @@ a.button.back {
 }
 
 .sidebar .nav-tree summary.kbd-nav-active-different,
-.sidebar .nav-tree a.kbd-nav-active-different {
+.sidebar .nav-tree a.kbd-nav-active-different,
+.sidebar .sidebar-recent-list a.kbd-nav-active-different {
   color: var(--orange);
   background-color: var(--bg2);
   box-shadow: inset 2px 0 0 var(--orange);
@@ -1057,7 +1125,10 @@ body .markdown-body {
 .sidebar .nav-tree a,
 .sidebar .nav-tree summary,
 .sidebar .nav-tree li,
-.sidebar .nav-tree summary span {
+.sidebar .nav-tree summary span,
+.sidebar .sidebar-recent-list,
+.sidebar .sidebar-recent-list a,
+.sidebar .sidebar-recent-list li {
   font-size: 13px;
 }
 
@@ -1149,7 +1220,11 @@ body .markdown-body {
 }
 
 .sidebar-root-stem,
+.sidebar-mode-toggle,
+.sidebar-panel,
 .nav-tree,
+.sidebar-recent-list,
+.sidebar-recent-empty,
 .sidebar-theme-ascii {
   position: relative;
   z-index: 1;
