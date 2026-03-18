@@ -703,6 +703,10 @@ a.button.back {
   margin: 0 0 12px;
 }
 
+.sidebar-mode-toggle-secondary {
+  margin-top: -4px;
+}
+
 .sidebar-mode-button {
   flex: 1;
   border: 1px solid var(--gray);

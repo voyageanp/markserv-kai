@@ -50,6 +50,7 @@
     "lib/cli-help.txt",
     "lib/readme.js",
     "lib/server.js",
+    "lib/ipynb-converter.js",
     "lib/splash.js",
     "lib/icons",
     "lib/templates/directory.html",
@@ -96,6 +97,7 @@
     "open": "^6.0.0",
     "promptly": "^3.0.3",
     "send": "^0.17.1",
+    "sharp": "^0.34.5",
     "snyk": "^1.266.0",
     "term-img": "^4.1.0"
   },

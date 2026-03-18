@@ -42,9 +42,13 @@ jspm_packages
 
 # Temporary files
 tmp/
+.markserv-cache/
 
 # OSX
 .DS_Store
 
 # CI
 .coveralls.yml
+
+# Claude Code
+.claude/

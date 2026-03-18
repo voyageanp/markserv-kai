@@ -104,6 +104,14 @@
 					Recent
 				</button>
 			</div>
+			<div class="sidebar-mode-toggle sidebar-mode-toggle-secondary" id="sidebar-notebook-toggle" role="group" aria-label="Notebook mode">
+				<button type="button" class="sidebar-mode-button" id="sidebar-notebook-off" aria-pressed="true">
+					Notebook: Off
+				</button>
+				<button type="button" class="sidebar-mode-button" id="sidebar-notebook-on" aria-pressed="false">
+					Notebook: On
+				</button>
+			</div>
 			<div class="sidebar-panel sidebar-panel-tree" id="sidebar-panel-tree">
 				{{#if hasNavTree}}
 				<div id="ms-nav-tree-root">{{{navTree}}}</div>
@@ -113,7 +121,7 @@
 				{{#if hasRecentEntries}}
 				<ul class="sidebar-recent-list">
 					{{#each recentEntries}}
-					<li class="sidebar-recent-item {{#if isCurrent}}current{{/if}}">
+					<li class="sidebar-recent-item {{#if isCurrent}}current{{/if}} ms-file-{{fileType}}" data-ms-file-type="{{fileType}}">
 						<a href="{{href}}">{{path}}</a>
 					</li>
 					{{/each}}
@@ -130,6 +138,7 @@
 		{{#if hasSidebar}}
 		<button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
 		{{/if}}
+		{{#if canEdit}}
 		<button class="ms-edit-toggle" id="ms-edit-toggle" type="button" aria-pressed="false">Edit OFF</button>
 		<div class="ms-desktop-editor" id="ms-desktop-editor">
 			<textarea id="ms-desktop-textarea" class="ms-desktop-textarea" spellcheck="false"></textarea>
@@ -139,6 +148,7 @@
 			</div>
 			<p class="ms-editor-status" id="ms-desktop-status" aria-live="polite"></p>
 		</div>
+		{{/if}}
 	{{{content}}}
 	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: {{pid}}</sup></footer>
 	{{#if hasSidebar}}
@@ -148,6 +158,7 @@
 	</div>
 	{{/if}}
 	</article>
+	{{#if canEdit}}
 	<div class="ms-mobile-editor-backdrop" id="ms-mobile-editor-backdrop"></div>
 	<div class="ms-mobile-editor" id="ms-mobile-editor" aria-hidden="true">
 		<div class="ms-mobile-editor-header">
@@ -161,8 +172,11 @@
 		</div>
 		<p class="ms-editor-status" id="ms-mobile-status" aria-live="polite"></p>
 	</div>
+	{{/if}}
 </div>
+{{#if canEdit}}
 <script id="ms-edit-data" type="application/json">{{{editDataJson}}}</script>
+{{/if}}
 {{#if hasSidebar}}
 <script>
 	const menuToggle = document.getElementById('menu-toggle');
@@ -171,6 +185,8 @@
 	const sidebarThemeAscii = document.getElementById('sidebar-theme-ascii');
 	const sidebarModeTreeButton = document.getElementById("sidebar-mode-tree");
 	const sidebarModeRecentButton = document.getElementById("sidebar-mode-recent");
+	const sidebarNotebookOffButton = document.getElementById("sidebar-notebook-off");
+	const sidebarNotebookOnButton = document.getElementById("sidebar-notebook-on");
 	const sidebarPanelTree = document.getElementById("sidebar-panel-tree");
 	const sidebarPanelRecent = document.getElementById("sidebar-panel-recent");
 	const mobileTreeNav = document.getElementById("ms-mobile-tree-nav");
@@ -182,6 +198,13 @@
 	const SIDEBAR_MODE_RECENT = "recent";
 	const SIDEBAR_MODE_STORAGE_KEY = "markserv.sidebarMode";
 	const SIDEBAR_MODES = new Set([SIDEBAR_MODE_TREE, SIDEBAR_MODE_RECENT]);
+	const SIDEBAR_NOTEBOOK_MODE_OFF = "off";
+	const SIDEBAR_NOTEBOOK_MODE_ON = "on";
+	const SIDEBAR_NOTEBOOK_MODE_STORAGE_KEY = "markserv.ipynbMode";
+	const SIDEBAR_NOTEBOOK_MODES = new Set([
+		SIDEBAR_NOTEBOOK_MODE_OFF,
+		SIDEBAR_NOTEBOOK_MODE_ON,
+	]);
 	const NAV_ACTIVE_CLASSES = [
 		"kbd-nav-active",
 		"kbd-nav-active-current",
@@ -193,6 +216,7 @@
 	let mobileTreePrevHref = null;
 	let mobileTreeNextHref = null;
 	let sidebarMode = SIDEBAR_MODE_TREE;
+	let notebookMode = SIDEBAR_NOTEBOOK_MODE_OFF;
 	let columnFocus = COLUMN_FOCUS_NONE;
 	const navState = {
 		focusMode: false,
@@ -238,6 +262,23 @@
 		} catch {}
 	};
 
+	const readStoredNotebookMode = () => {
+		try {
+			const value = localStorage.getItem(SIDEBAR_NOTEBOOK_MODE_STORAGE_KEY);
+			return SIDEBAR_NOTEBOOK_MODES.has(value)
+				? value
+				: SIDEBAR_NOTEBOOK_MODE_OFF;
+		} catch {
+			return SIDEBAR_NOTEBOOK_MODE_OFF;
+		}
+	};
+
+	const persistNotebookMode = (value) => {
+		try {
+			localStorage.setItem(SIDEBAR_NOTEBOOK_MODE_STORAGE_KEY, value);
+		} catch {}
+	};
+
 	const getActiveNavSelector = () => (
 		sidebarMode === SIDEBAR_MODE_RECENT
 			? RECENT_NAV_ITEM_SELECTOR
@@ -279,26 +320,62 @@
 		return editable !== null;
 	};
 
+	const normalizePathname = (pathname) => {
+		if (typeof pathname !== "string") {
+			return "";
+		}
+
+		if (pathname === "/") {
+			return pathname;
+		}
+
+		return pathname.replaceAll(/\/+$/g, "");
+	};
+
+	const getNavigationSignatureFromUrl = (urlValue) => {
+		try {
+			const url = new URL(urlValue, window.location.href);
+			return `${normalizePathname(url.pathname)}${url.search || ""}`;
+		} catch {
+			return "";
+		}
+	};
+
+	const getCurrentNavigationSignature = () =>
+		`${normalizePathname(window.location.pathname)}${window.location.search || ""}`;
+
+	const isNotebookSidebarItem = (element) => (
+		element instanceof HTMLElement &&
+		element.closest("[data-ms-file-type=\"ipynb\"]") !== null
+	);
+
+	const isExcludedByNotebookMode = (element) =>
+		notebookMode !== SIDEBAR_NOTEBOOK_MODE_ON && isNotebookSidebarItem(element);
+
+	const isHiddenInSidebar = (element) =>
+		element instanceof HTMLElement && element.closest("[hidden]") !== null;
+
+	const isSelectableSidebarElement = (element) => (
+		element instanceof HTMLElement &&
+		!isExcludedByNotebookMode(element) &&
+		!isHiddenInSidebar(element)
+	);
+
 	const getCurrentNavItem = () => {
 		if (!sidebar) {
 			return null;
 		}
 
 		if (sidebarMode === SIDEBAR_MODE_RECENT) {
-			const panel = sidebarPanelRecent || sidebar;
-			const links = [...panel.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
+			const links = getRecentFileLinks();
 			if (links.length === 0) {
 				return null;
 			}
 
-			const currentPath = normalizePathname(window.location.pathname);
+			const currentSignature = getCurrentNavigationSignature();
 			const currentLink = links.find((link) => {
-				try {
-					const linkUrl = new URL(link.href, window.location.href);
-					return normalizePathname(linkUrl.pathname) === currentPath;
-				} catch {
-					return false;
-				}
+				const linkSignature = getNavigationSignatureFromUrl(link.href);
+				return linkSignature === currentSignature;
 			});
 
 			return currentLink || links[0];
@@ -306,11 +383,13 @@
 
 		const treeRoot = sidebarPanelTree || sidebar;
 		const currentFile = treeRoot.querySelector(".nav-tree li.current > a");
-		if (currentFile) {
+		if (currentFile && isSelectableSidebarElement(currentFile)) {
 			return currentFile;
 		}
 
-		return treeRoot.querySelector(TREE_NAV_ITEM_SELECTOR) || null;
+		const firstItem = [...treeRoot.querySelectorAll(TREE_NAV_ITEM_SELECTOR)]
+			.find((item) => isSelectableSidebarElement(item) && isVisibleInTree(item));
+		return firstItem || null;
 	};
 
 	const isVisibleInTree = (element) => {
@@ -331,11 +410,13 @@
 
 		if (sidebarMode === SIDEBAR_MODE_RECENT) {
 			const panel = sidebarPanelRecent || sidebar;
-			return [...panel.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
+			return [...panel.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)]
+				.filter(isSelectableSidebarElement);
 		}
 
 		const treeRoot = sidebarPanelTree || sidebar;
-		return [...treeRoot.querySelectorAll(TREE_NAV_ITEM_SELECTOR)].filter(isVisibleInTree);
+		return [...treeRoot.querySelectorAll(TREE_NAV_ITEM_SELECTOR)]
+			.filter((item) => isVisibleInTree(item) && isSelectableSidebarElement(item));
 	};
 
 	const getTreeFileLinks = () => {
@@ -344,7 +425,8 @@
 		}
 
 		const treeRoot = sidebarPanelTree || sidebar;
-		return [...treeRoot.querySelectorAll(".nav-tree li.isfile > a")];
+		return [...treeRoot.querySelectorAll(".nav-tree li.isfile > a")]
+			.filter(isSelectableSidebarElement);
 	};
 
 	const getRecentFileLinks = () => {
@@ -353,19 +435,8 @@
 		}
 
 		const recentRoot = sidebarPanelRecent || sidebar;
-		return [...recentRoot.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)];
-	};
-
-	const normalizePathname = (pathname) => {
-		if (typeof pathname !== "string") {
-			return "";
-		}
-
-		if (pathname === "/") {
-			return pathname;
-		}
-
-		return pathname.replaceAll(/\/+$/g, "");
+		return [...recentRoot.querySelectorAll(RECENT_NAV_ITEM_SELECTOR)]
+			.filter(isSelectableSidebarElement);
 	};
 
 	const getCurrentTreeFileIndex = (links) => {
@@ -378,19 +449,15 @@
 			const currentFile = treeRoot
 				? treeRoot.querySelector(".nav-tree li.current > a")
 				: null;
-			if (currentFile) {
+			if (currentFile && isSelectableSidebarElement(currentFile)) {
 				return links.indexOf(currentFile);
 			}
 		}
 
-		const currentPath = normalizePathname(window.location.pathname);
+		const currentSignature = getCurrentNavigationSignature();
 		return links.findIndex((link) => {
-			try {
-				const linkUrl = new URL(link.href, window.location.href);
-				return normalizePathname(linkUrl.pathname) === currentPath;
-			} catch {
-				return false;
-			}
+			const linkSignature = getNavigationSignatureFromUrl(link.href);
+			return linkSignature === currentSignature;
 		});
 	};
 
@@ -462,6 +529,55 @@
 		}
 
 		element.classList.add("kbd-nav-active-different");
+	};
+
+	const getNotebookSidebarItems = () => {
+		if (!sidebar) {
+			return [];
+		}
+
+		return [...sidebar.querySelectorAll("[data-ms-file-type=\"ipynb\"]")];
+	};
+
+	const applyNotebookMode = (nextMode, shouldPersist = true) => {
+		const resolvedMode = SIDEBAR_NOTEBOOK_MODES.has(nextMode)
+			? nextMode
+			: SIDEBAR_NOTEBOOK_MODE_OFF;
+		notebookMode = resolvedMode;
+		const showNotebookEntries = resolvedMode === SIDEBAR_NOTEBOOK_MODE_ON;
+		const notebookItems = getNotebookSidebarItems();
+		notebookItems.forEach((item) => {
+			if (item instanceof HTMLElement) {
+				item.hidden = !showNotebookEntries;
+			}
+		});
+
+		if (sidebarNotebookOffButton) {
+			const isOff = resolvedMode === SIDEBAR_NOTEBOOK_MODE_OFF;
+			sidebarNotebookOffButton.classList.toggle("is-active", isOff);
+			sidebarNotebookOffButton.setAttribute("aria-pressed", isOff ? "true" : "false");
+		}
+
+		if (sidebarNotebookOnButton) {
+			const isOn = resolvedMode === SIDEBAR_NOTEBOOK_MODE_ON;
+			sidebarNotebookOnButton.classList.toggle("is-active", isOn);
+			sidebarNotebookOnButton.setAttribute("aria-pressed", isOn ? "true" : "false");
+		}
+
+		if (shouldPersist) {
+			persistNotebookMode(resolvedMode);
+		}
+
+		if (navState.focusMode) {
+			refreshNavItems(false);
+		} else {
+			navState.items = [];
+			navState.activeIndex = -1;
+			navState.currentItem = getCurrentNavItem();
+			setActiveItemStyles(null);
+		}
+
+		updateMobileTreeNavButtons();
 	};
 
 	const applySidebarMode = (nextMode, shouldPersist = true) => {
@@ -741,6 +857,19 @@
 		});
 	}
 
+	if (sidebarNotebookOffButton) {
+		sidebarNotebookOffButton.addEventListener("click", () => {
+			applyNotebookMode(SIDEBAR_NOTEBOOK_MODE_OFF);
+		});
+	}
+
+	if (sidebarNotebookOnButton) {
+		sidebarNotebookOnButton.addEventListener("click", () => {
+			applyNotebookMode(SIDEBAR_NOTEBOOK_MODE_ON);
+		});
+	}
+
+	applyNotebookMode(readStoredNotebookMode(), false);
 	applySidebarMode(readStoredSidebarMode(), false);
 
 	if (mainArticle) {
@@ -755,7 +884,7 @@
 			}
 
 			const clickedItem = event.target.closest(getActiveNavSelector());
-			if (!clickedItem) {
+			if (!clickedItem || !isSelectableSidebarElement(clickedItem)) {
 				return;
 			}
 
@@ -898,6 +1027,7 @@
 	}, true);
 </script>
 {{/if}}
+{{#if canEdit}}
 <script>
 	(() => {
 		const editToggle = document.getElementById("ms-edit-toggle");
@@ -1417,5 +1547,6 @@
 		clearAllStatus();
 	})();
 </script>
+{{/if}}
 </body>
 </html>

@@ -23,9 +23,13 @@ const assertKeyboardSidebarMarkers = (t, html) => {
 	t.true(html.includes("li.isfile > a"));
 	t.true(html.includes("sidebar-mode-tree"));
 	t.true(html.includes("sidebar-mode-recent"));
+	t.true(html.includes("sidebar-notebook-off"));
+	t.true(html.includes("sidebar-notebook-on"));
 	t.true(html.includes("sidebar-panel-recent"));
 	t.true(html.includes("sidebar-recent-list"));
 	t.true(html.includes("markserv.sidebarMode"));
+	t.true(html.includes("markserv.ipynbMode"));
+	t.true(html.includes("getNotebookSidebarItems"));
 	t.true(html.includes("getActiveNavSelector"));
 	t.true(html.includes("cycleColumnFocus"));
 	t.true(html.includes("COLUMN_FOCUS_CONTENT"));
