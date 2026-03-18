@@ -807,6 +807,11 @@ a.button.back {
   box-shadow: inset 0 0 0 1px var(--purple);
 }
 
+body .markdown-body.kbd-content-focus {
+  outline: 1px solid var(--purple);
+  outline-offset: -1px;
+}
+
 .sidebar .nav-tree summary.kbd-nav-active,
 .sidebar .nav-tree a.kbd-nav-active,
 .sidebar .sidebar-recent-list a.kbd-nav-active {

@@ -125,13 +125,18 @@
         'kbd-nav-active-current',
         'kbd-nav-active-different',
       ];
+      const COLUMN_FOCUS_NONE = 'none';
+      const COLUMN_FOCUS_SIDEBAR = 'sidebar';
+      const COLUMN_FOCUS_CONTENT = 'content';
       let sidebarMode = SIDEBAR_MODE_TREE;
+      let columnFocus = COLUMN_FOCUS_NONE;
       const navState = {
         focusMode: false,
         items: [],
         activeIndex: -1,
         currentItem: null,
       };
+      const mainArticle = document.querySelector('article.markdown-body');
 
       const decodeCssString = (rawValue) => {
         if (!rawValue) {
@@ -445,6 +450,43 @@
         enableNavFocusMode();
       };
 
+      const setColumnFocus = (nextFocus) => {
+        const resolvedFocus = (
+          nextFocus === COLUMN_FOCUS_SIDEBAR ||
+          nextFocus === COLUMN_FOCUS_CONTENT
+        )
+          ? nextFocus
+          : COLUMN_FOCUS_NONE;
+        columnFocus = resolvedFocus;
+
+        if (resolvedFocus === COLUMN_FOCUS_SIDEBAR) {
+          enableNavFocusMode();
+        } else {
+          disableNavFocusMode();
+        }
+
+        if (mainArticle) {
+          mainArticle.classList.toggle('kbd-content-focus', resolvedFocus === COLUMN_FOCUS_CONTENT);
+          if (resolvedFocus === COLUMN_FOCUS_CONTENT) {
+            mainArticle.focus({ preventScroll: true });
+          }
+        }
+      };
+
+      const cycleColumnFocus = () => {
+        if (columnFocus === COLUMN_FOCUS_NONE) {
+          setColumnFocus(COLUMN_FOCUS_SIDEBAR);
+          return;
+        }
+
+        if (columnFocus === COLUMN_FOCUS_SIDEBAR) {
+          setColumnFocus(COLUMN_FOCUS_CONTENT);
+          return;
+        }
+
+        setColumnFocus(COLUMN_FOCUS_NONE);
+      };
+
       const moveActiveSelection = (delta) => {
         if (!navState.focusMode) {
           return;
@@ -574,6 +616,10 @@
 
       applySidebarMode(readStoredSidebarMode(), false);
 
+      if (mainArticle) {
+        mainArticle.setAttribute('tabindex', '-1');
+      }
+
       if (sidebar) {
         sidebar.setAttribute('tabindex', '-1');
         sidebar.addEventListener('click', (event) => {
@@ -615,7 +661,7 @@
           (lowerKey === 'b' || code === 'KeyB')
         ) {
           consumeNavEvent();
-          toggleNavFocusMode();
+          cycleColumnFocus();
           return;
         }
 
@@ -626,11 +672,11 @@
           (lowerKey === '/' || code === 'Slash')
         ) {
           consumeNavEvent();
-          toggleNavFocusMode();
+          cycleColumnFocus();
           return;
         }
 
-        if (!navState.focusMode) {
+        if (columnFocus === COLUMN_FOCUS_NONE) {
           return;
         }
 
@@ -640,7 +686,51 @@
 
         if (lowerKey === 'escape' || code === 'Escape') {
           consumeNavEvent();
-          disableNavFocusMode();
+          setColumnFocus(COLUMN_FOCUS_NONE);
+          return;
+        }
+
+        if (columnFocus === COLUMN_FOCUS_CONTENT) {
+          if (!mainArticle) {
+            return;
+          }
+
+          const scrollContent = (topDelta = 0, leftDelta = 0) => {
+            mainArticle.scrollBy({
+              top: topDelta,
+              left: leftDelta,
+              behavior: 'auto',
+            });
+          };
+
+          if (lowerKey === 'arrowdown' || code === 'ArrowDown' || lowerKey === 'j' || code === 'KeyJ') {
+            consumeNavEvent();
+            scrollContent(48, 0);
+            return;
+          }
+
+          if (lowerKey === 'arrowup' || code === 'ArrowUp' || lowerKey === 'k' || code === 'KeyK') {
+            consumeNavEvent();
+            scrollContent(-48, 0);
+            return;
+          }
+
+          if (lowerKey === 'arrowright' || code === 'ArrowRight' || lowerKey === 'l' || code === 'KeyL') {
+            consumeNavEvent();
+            scrollContent(0, 220);
+            return;
+          }
+
+          if (lowerKey === 'arrowleft' || code === 'ArrowLeft' || lowerKey === 'h' || code === 'KeyH') {
+            consumeNavEvent();
+            scrollContent(0, -220);
+            return;
+          }
+
+          return;
+        }
+
+        if (!navState.focusMode) {
           return;
         }
 
