@@ -5,7 +5,7 @@ $ readme (serve closest README.md file)
 Options
 	--port, -p,  HTTP port [port] (80)
 	--livereloadport, -l  LiveReload port [port/false] (35729)
-	--autoreload  Auto reload on file changes (true)
+	--autoreload  Reload mode: manual (default), auto, false
 	--browser, -b  Launch browser (true)
 	--silent, -i  Silent (false)
 	--address, -a  Serve on ip/address [address] (localhost); comma-separated for multiple (e.g. "192.168.1.1,localhost")

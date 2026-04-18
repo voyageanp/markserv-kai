@@ -210,13 +210,22 @@ markserv -p 80
 
 Markserv tries your requested LiveReload port first, then falls back in `35729-35739`.
 
-### Disable auto reload
+### Reload mode (`--autoreload`)
 
-If you do not want browser auto reload while editing:
+Three modes are available:
+
+| Value | Behaviour |
+|-------|-----------|
+| `manual` | **(default)** LiveReload is disabled. Press F5 to refresh manually. Recommended when running multiple instances. |
+| `auto` | LiveReload is active. The browser refreshes automatically when a file changes. |
+| `false` | Completely disabled (no LiveReload server, no script injection). |
 
 ```shell
-markserv --no-autoreload
+markserv --autoreload auto   # enable auto refresh
+markserv --autoreload false  # disable completely
 ```
+
+The old `--no-autoreload` flag is equivalent to `--autoreload false`.
 
 ### Making Markserv available to external networks
 
