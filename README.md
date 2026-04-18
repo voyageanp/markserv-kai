@@ -234,6 +234,38 @@ nohup markserv -p 8642 -a 0.0.0.0 &
 
 This will make the server instance persistent and will be available to access even when you log out or even when your ssh session closes (in case you are accessing a remote machine through ssh to set up `markserv` server)
 
+### Binding to multiple addresses simultaneously
+
+You can bind to multiple addresses at the same time by passing a comma-separated list to `--address` / `-a`. This is useful when you want the server accessible both on a specific network interface and on `localhost`:
+
+```shell
+markserv -a 192.168.xxx.xxx,localhost .
+```
+
+Each address is bound on the same port. All bound URLs are printed at startup.
+
+### Specifying the address without it appearing in shell history
+
+you can use the `MARKSERV_ADDRESS` environment variable instead of `--address`:
+
+```shell
+MARKSERV_ADDRESS=192.168.xxx.xxx,localhost markserv .
+```
+
+For a more permanent setup that keeps the address out of history entirely, export it in your shell profile (e.g. `~/.zshrc` or `~/.bashrc`):
+
+```sh
+export MARKSERV_ADDRESS=192.168.xxx.xxx,localhost
+```
+
+After that, simply running `markserv .` picks up the address automatically.
+
+Alternatively, if your shell supports `HIST_IGNORE_SPACE` (zsh) or `HISTCONTROL=ignorespace` (bash), prefixing the command with a space prevents it from being recorded:
+
+```sh
+ MARKSERV_ADDRESS=192.168.xxx.xxx,localhost markserv .
+```
+
 ## :cupid: Credits
 
 - Logos used in the directory list: [PKief - vscode-material-icon-theme](https://github.com/PKief/vscode-material-icon-theme)
