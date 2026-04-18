@@ -227,6 +227,16 @@ markserv --autoreload false  # disable completely
 
 The old `--no-autoreload` flag is equivalent to `--autoreload false`.
 
+### Markdown directories only
+
+If you want Markserv to limit directory scanning, sidebar trees, directory listings, and LiveReload watching to directories that currently contain markdown or notebook descendants:
+
+```shell
+markserv --markdown-only-dir .
+```
+
+This mode is useful when serving a large repository root and you only want markdown-related areas from the start.
+
 ### Making Markserv available to external networks
 
 In some cases `localhost` might be the address on which the server is listening, in which case it is hard to make the site available to external networks even with the right IP. Use the following as an example to make sure the server is accessible from external networks:

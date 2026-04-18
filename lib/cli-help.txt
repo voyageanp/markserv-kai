@@ -12,5 +12,6 @@ Options
 	               Env: MARKSERV_ADDRESS (avoids storing address in shell history)
 	--verbose, -v  Verbose output (false)
 	--show-all-dir  Show all directories even if they contain no markdown (false)
+	--markdown-only-dir  Only scan/show directories that contain markdown descendants (false)
 	--force-replace  Kill existing markserv on the same port and restart (false)
 	--poll  Use polling instead of native fs watchers (true)

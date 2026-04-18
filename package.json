@@ -4,8 +4,8 @@
   "description": "🏁  serve markdown as html (GitHub style), index directories, live-reload as you edit",
   "preferGlobal": true,
   "scripts": {
-    "test": "xo && npm run cover",
-    "cover": "nyc --reporter=lcov --reporter=html --reporter=text ava",
+    "test": "xo && MARKSERV_ADDRESS= npm run cover",
+    "cover": "MARKSERV_ADDRESS= nyc --reporter=lcov --reporter=html --reporter=text ava",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls -v"
   },
   "keywords": [
