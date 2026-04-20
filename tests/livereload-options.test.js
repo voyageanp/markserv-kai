@@ -29,7 +29,7 @@ const findAvailablePortInRange = async (start, end) => {
 	return false;
 };
 
-test("resolveLiveReloadPort falls back when requested port is in use", async t => {
+test("resolveLiveReloadPort fails when requested port is in use", async t => {
 	const requestedPort = await findAvailablePortInRange(35_729, 35_739);
 	if (!requestedPort) {
 		t.pass();
@@ -42,9 +42,9 @@ test("resolveLiveReloadPort falls back when requested port is in use", async t =
 	});
 
 	try {
-		const port = await markserv.resolveLiveReloadPort(requestedPort, {silent: true});
-		t.not(port, requestedPort);
-		t.true(port > 0);
+		const error = await t.throwsAsync(() => markserv.resolveLiveReloadPort(requestedPort));
+		t.is(error.code, "EADDRINUSE");
+		t.true(error.message.includes("already in use"));
 	} finally {
 		await closeServer(blocker);
 	}

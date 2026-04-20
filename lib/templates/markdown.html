@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="{markserv}templates/markserv.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">
 	<link rel="stylesheet" href="{markserv}icons/icons.css">
+	{{{themeCssOverride}}}
 	<script type="text/javascript" id="MathJax-script" async
 	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
         </script>
@@ -96,6 +97,9 @@
 /|\</pre>
 			</div>
 			<h2 class="sidebar-root-stem">{{rootDirStem}}</h2>
+			<div class="sidebar-root-switcher">
+				<a class="sidebar-root-home-link" href="{{masterHomeHref}}">Back To Hub</a>
+			</div>
 			<div class="sidebar-mode-toggle" id="sidebar-mode-toggle" role="group" aria-label="Sidebar mode">
 				<button type="button" class="sidebar-mode-button" id="sidebar-mode-tree" aria-pressed="true">
 					Tree
@@ -1157,7 +1161,7 @@
 			state.pendingSave = true;
 			setButtonsDisabled(true);
 			try {
-				const response = await fetch("/__markserv/edit", {
+				const response = await fetch("{{editEndpoint}}", {
 					method: "POST",
 					headers: {
 						"content-type": "application/json",

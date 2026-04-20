@@ -10,6 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="{markserv}icons/markserv-mk.svg" />
     <link rel="shortcut icon" href="{markserv}icons/markserv-mk.svg" />
     <link rel="stylesheet" href="{markserv}templates/markserv.css" />
+    {{{themeCssOverride}}}
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
       const rootStyles = getComputedStyle(document.documentElement);
@@ -56,6 +57,9 @@
       {{#if hasSidebar}}
         <aside class="sidebar" id="sidebar">
           <h2 class="sidebar-root-stem">{{rootDirStem}}</h2>
+          <div class="sidebar-root-switcher">
+            <a class="sidebar-root-home-link" href="{{masterHomeHref}}">Back To Hub</a>
+          </div>
           <div class="sidebar-mode-toggle" id="sidebar-mode-toggle" role="group" aria-label="Sidebar mode">
             <button type="button" class="sidebar-mode-button" id="sidebar-mode-tree" aria-pressed="true">
               Tree

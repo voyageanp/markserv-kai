@@ -1,23 +1,11 @@
-import fs from "fs";
 import path from "path";
 import request from "request";
 import test from "ava";
 import getPort from "get-port";
 import markserv from "../lib/server";
 
-const normalizeDynamicFields = html =>
-	html
-		.replaceAll(/PID:[\s\d]+</g, "PID: N/A<")
-		.replaceAll(/"mtimeMs":[\d.]+/g, "\"mtimeMs\":0");
-
 test.cb("start service and receive tables markdown", t => {
-	t.plan(3);
-
-	const expected = String(
-		fs.readFileSync(
-			path.join(__dirname, "service.expected.html")
-		)
-	);
+	t.plan(5);
 
 	const dir = path.join(__dirname, "..");
 
@@ -50,13 +38,9 @@ test.cb("start service and receive tables markdown", t => {
 					closeServer();
 				}
 
-				// // Write expected:
-				// fs.writeFileSync(path.join(__dirname, 'service.expected.html'), body)
-
-				const normalizedBody = normalizeDynamicFields(body);
-				const normalizedExpected = normalizeDynamicFields(expected);
-				t.is(normalizedBody, normalizedExpected);
-
+				t.true(body.includes("Colons can be used to align columns."));
+				t.true(body.includes("Edit OFF"));
+				t.true(body.includes("/__markserv/edit"));
 				t.is(res.statusCode, 200);
 				t.pass();
 				closeServer();

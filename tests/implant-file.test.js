@@ -8,7 +8,9 @@ import markserv from "../lib/server";
 const normalizeDynamicFields = html =>
 	html
 		.replaceAll(/PID:[\s\d]+</g, "PID: N/A<")
-		.replaceAll(/"mtimeMs":[\d.]+/g, "\"mtimeMs\":0");
+		.replaceAll(/"mtimeMs":[\d.]+/g, "\"mtimeMs\":0")
+		.replaceAll(/<style id="ms-theme-override">[\s\S]*?<\/style>\n/g, "")
+		.replaceAll(/http:\/\/localhost:\d+\//g, "http://localhost:PORT/");
 
 test.cb("start service and get text file", t => {
 	t.plan(3);

@@ -1,17 +1,25 @@
 Usage
+$ markserv master
+$ markserv root add <dir> [--slug <slug>] [--title <title>] [--theme <theme-id>]
+$ markserv root remove <slug>
+$ markserv root list
+$ markserv root open <slug>
 $ markserv <file/dir>
 $ readme (serve closest README.md file)
 
 Options
-	--port, -p,  HTTP port [port] (80)
+	--port, -p,  HTTP port [port] (8642)
 	--livereloadport, -l  LiveReload port [port/false] (35729)
-	--autoreload  Reload mode: manual (default), auto, false
 	--browser, -b  Launch browser (true)
-	--silent, -i  Silent (false)
+	--autoreload  Reload mode: manual (default), auto, false
+	--silent, -s  Silent (false)
 	--address, -a  Serve on ip/address [address] (localhost); comma-separated for multiple (e.g. "192.168.1.1,localhost")
 	               Env: MARKSERV_ADDRESS (avoids storing address in shell history)
 	--verbose, -v  Verbose output (false)
 	--show-all-dir  Show all directories even if they contain no markdown (false)
 	--markdown-only-dir  Only scan/show directories that contain markdown descendants (false)
-	--force-replace  Kill existing markserv on the same port and restart (false)
+	--registry  Root registry path (~/.config/markserv/roots.json)
+	--slug  Root slug for "markserv root add"
+	--title  Root title for "markserv root add"
+	--theme  Root theme id for "markserv root add"
 	--poll  Use polling instead of native fs watchers (true)

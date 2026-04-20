@@ -29,6 +29,11 @@ body .markdown-body {
   padding: 30px;
 }
 
+body.ms-master-page {
+  width: min(1400px, calc(100vw - 48px));
+  overflow: auto;
+}
+
 @media screen and (max-width: 1024px) {
   body {
     width: 98%;
@@ -1229,6 +1234,7 @@ body .markdown-body {
 }
 
 .sidebar-root-stem,
+.sidebar-root-switcher,
 .sidebar-mode-toggle,
 .sidebar-panel,
 .nav-tree,
@@ -1253,4 +1259,149 @@ body .markdown-body {
   opacity: 0.86;
   user-select: none;
   pointer-events: none;
+}
+
+.sidebar-root-switcher {
+  margin: 0 0 14px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg1) 92%, white 8%), color-mix(in srgb, var(--bg0_h) 96%, black 4%));
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.sidebar-section-label {
+  margin: 0 0 10px;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+}
+
+.sidebar-root-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar-root-item {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg2) 76%, transparent);
+  border: 1px solid transparent;
+}
+
+.sidebar-root-item.current {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg2) 88%);
+}
+
+.sidebar-root-item a {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.sidebar-root-meta {
+  color: var(--gray);
+  font-size: 11px;
+}
+
+.ms-master-index {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding-bottom: 64px;
+}
+
+.ms-master-hero {
+  margin-bottom: 28px;
+  padding: 28px 32px;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 22%, transparent), transparent 32%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg1) 94%, white 6%), color-mix(in srgb, var(--bg0_h) 95%, black 5%));
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.ms-master-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ms-master-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.ms-master-copy,
+.ms-master-registry {
+  margin: 0;
+  max-width: 860px;
+  color: color-mix(in srgb, var(--fg) 90%, var(--gray) 10%);
+}
+
+.ms-master-registry {
+  margin-top: 14px;
+}
+
+.ms-root-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.ms-root-card {
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid var(--card-border, var(--border));
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--card-accent, var(--accent)) 18%, transparent), transparent 30%),
+    linear-gradient(180deg, var(--card-bg, var(--bg1)), var(--card-bg-soft, var(--bg2)));
+  color: var(--card-fg, var(--fg)) !important;
+  text-decoration: none !important;
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.ms-root-card-kicker {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card-accent, var(--accent)) 16%, transparent);
+  color: var(--card-accent, var(--accent));
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ms-root-card h2 {
+  margin: 0 0 10px;
+  color: inherit;
+}
+
+.ms-root-card h2 a {
+  color: var(--card-accent, var(--accent)) !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ms-root-card h2 a:hover,
+.ms-root-card h2 a:focus {
+  text-decoration: underline;
 }

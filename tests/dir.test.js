@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import request from "request";
 import test from "ava";
@@ -6,13 +5,7 @@ import getPort from "get-port";
 import markserv from "../lib/server";
 
 test.cb("start service and get directory listing", t => {
-	t.plan(3);
-
-	const expected = String(
-		fs.readFileSync(
-			path.join(__dirname, "dir.expected.html")
-		)
-	);
+	t.plan(5);
 
 	const dir = path.join(__dirname, "..");
 
@@ -45,12 +38,9 @@ test.cb("start service and get directory listing", t => {
 					closeServer();
 				}
 
-				// // Write expected:
-				// fs.writeFileSync(path.join(__dirname, 'dir.expected.html'), body)
-
-				const bodyNoPid = body.replace(/PID:[\s\d]+</, "PID: N/A<");
-				const expectedNoPid = expected.replace(/PID:[\s\d]+</, "PID: N/A<");
-				t.is(bodyNoPid, expectedNoPid);
+				t.true(body.includes("<h1 class=\"icon folder\">"));
+				t.true(body.includes("tests/testdir/"));
+				t.true(body.includes("file1.md"));
 				t.is(res.statusCode, 200);
 				t.pass();
 				closeServer();

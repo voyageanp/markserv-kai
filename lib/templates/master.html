@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>{{title}}</title>
+	<meta name="theme-color" content="#292A2B">
+	<link rel="icon" type="image/svg+xml" href="{markserv}icons/markserv-mk.svg">
+	<link rel="shortcut icon" href="{markserv}icons/markserv-mk.svg">
+	<link rel="stylesheet" href="{markserv}templates/markserv.css">
+	<link rel="stylesheet" href="{markserv}icons/icons.css">
+	{{{themeCssOverride}}}
+</head>
+<body class="dir ms-master-page">
+<article class="markdown-body ms-master-index">
+	<div class="ms-master-hero">
+		<p class="ms-master-eyebrow">Markserv Master</p>
+		<h1>Jump Into Your Roots</h1>
+		<p class="ms-master-copy">One fixed port, one hub page, and a direct path into each project workspace.</p>
+		<p class="ms-master-registry"><strong>Registry:</strong> <code>{{registryPath}}</code></p>
+	</div>
+	{{#if hasRoots}}
+	<div class="ms-root-grid">
+		{{#each roots}}
+		<div class="ms-root-card" style="{{cardStyle}}">
+			<h2><a href="{{href}}">{{title}}</a></h2>
+		</div>
+		{{/each}}
+	</div>
+	{{else}}
+	<p>No roots are registered yet.</p>
+	<pre><code>markserv root add ~/workspace/project --slug project --title "Project"</code></pre>
+	{{/if}}
+	<footer><sup>Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: {{pid}}</sup></footer>
+</article>
+</body>
+</html>
