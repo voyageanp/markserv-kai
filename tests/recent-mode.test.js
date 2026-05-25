@@ -18,7 +18,7 @@ const fetchBody = (url) =>
 		});
 	});
 
-test("renders recent mode list with top 10 markdown files sorted by mtime desc", async t => {
+test("renders recent mode list with markdown files sorted by mtime desc", async t => {
 	const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "markserv-recent-"));
 	const baseTime = new Date("2026-01-01T00:00:00.000Z").getTime();
 	let service = null;
@@ -55,7 +55,7 @@ test("renders recent mode list with top 10 markdown files sorted by mtime desc",
 		const recentListHtml = body.slice(recentListStart, recentListEnd);
 
 		const recentItemCount = (recentListHtml.match(/class="sidebar-recent-item/g) || []).length;
-		t.is(recentItemCount, 10);
+		t.is(recentItemCount, 12);
 
 		const expectedOrder = [
 			"file-12.md",
@@ -68,6 +68,8 @@ test("renders recent mode list with top 10 markdown files sorted by mtime desc",
 			"file-05.md",
 			"file-04.md",
 			"file-03.md",
+			"file-02.md",
+			"file-01.md",
 		];
 
 		let previousIndex = -1;
@@ -77,9 +79,6 @@ test("renders recent mode list with top 10 markdown files sorted by mtime desc",
 			t.true(position > previousIndex);
 			previousIndex = position;
 		}
-
-		t.false(recentListHtml.includes("href=\"/file-01.md\""));
-		t.false(recentListHtml.includes("href=\"/file-02.md\""));
 	} finally {
 		if (service && service.httpServer) {
 			await new Promise((resolve) => {

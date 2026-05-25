@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>{{title}}</title>
 	<meta charset="utf-8">
@@ -13,6 +13,24 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">
 	<link rel="stylesheet" href="{markserv}icons/icons.css">
 	{{{themeCssOverride}}}
+	<script>
+	window.MathJax = {
+		tex: {
+			inlineMath: [["\\(", "\\)"]],
+			displayMath: [["\\[", "\\]"]],
+			processEscapes: true,
+			tags: "ams"
+		},
+		chtml: {
+			matchFontHeight: false,
+			scale: 1
+		},
+		options: {
+			skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+			ignoreHtmlClass: "no-mathjax"
+		}
+	};
+	</script>
 	<script type="text/javascript" id="MathJax-script" async
 	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
         </script>
@@ -155,6 +173,9 @@
 		{{/if}}
 	{{{content}}}
 	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: {{pid}}</sup></footer>
+	<div class="ms-copy-all-container">
+		<button type="button" class="ms-copy-all-button" id="ms-copy-all" aria-label="Copy all content as text">Copy All</button>
+	</div>
 	{{#if hasSidebar}}
 	<div class="ms-mobile-tree-nav" id="ms-mobile-tree-nav" aria-label="Tree navigation">
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-prev" aria-label="Previous page in tree">←</button>
@@ -196,6 +217,7 @@
 	const mobileTreeNav = document.getElementById("ms-mobile-tree-nav");
 	const mobileTreePrevButton = document.getElementById("ms-mobile-tree-prev");
 	const mobileTreeNextButton = document.getElementById("ms-mobile-tree-next");
+	const copyAllButton = document.getElementById("ms-copy-all");
 	const TREE_NAV_ITEM_SELECTOR = ".nav-tree summary, .nav-tree li.isfile > a";
 	const RECENT_NAV_ITEM_SELECTOR = ".sidebar-recent-list a";
 	const SIDEBAR_MODE_TREE = "tree";
@@ -831,6 +853,57 @@
 			navigateTreeOnMobile(1);
 		});
 		updateMobileTreeNavButtons();
+	}
+
+	if (copyAllButton) {
+		const fallbackCopyText = (text) => {
+			const textarea = document.createElement("textarea");
+			textarea.value = text;
+			textarea.setAttribute("readonly", "");
+			textarea.style.position = "absolute";
+			textarea.style.left = "-9999px";
+			textarea.style.top = (window.pageYOffset || document.documentElement.scrollTop) + "px";
+			document.body.appendChild(textarea);
+			textarea.focus();
+			textarea.select();
+			textarea.setSelectionRange(0, text.length);
+			const result = document.execCommand("copy");
+			document.body.removeChild(textarea);
+			return result;
+		};
+
+		const getContentText = () => {
+			const articleEl = document.querySelector("article.markdown-body");
+			if (!articleEl) return document.body.innerText.trim();
+			const clone = articleEl.cloneNode(true);
+			clone.querySelectorAll(
+				"footer, .ms-mobile-tree-nav, .ms-copy-all-container, .menu-toggle, .ms-edit-toggle, .ms-desktop-editor"
+			).forEach(el => el.remove());
+			return clone.innerText.trim();
+		};
+
+		copyAllButton.addEventListener("click", async () => {
+			const text = getContentText();
+			let success = false;
+
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				try {
+					await navigator.clipboard.writeText(text);
+					success = true;
+				} catch (err) {
+					success = fallbackCopyText(text);
+				}
+			} else {
+				success = fallbackCopyText(text);
+			}
+
+			copyAllButton.textContent = success ? "Copied!" : "Failed";
+			copyAllButton.classList.toggle("ms-copied", success);
+			setTimeout(() => {
+				copyAllButton.textContent = "Copy All";
+				copyAllButton.classList.remove("ms-copied");
+			}, 2000);
+		});
 	}
 
 	if (menuToggle && sidebar && sidebarOverlay) {

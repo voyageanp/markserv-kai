@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>tests</title>
 	<meta charset="utf-8">
@@ -12,7 +12,61 @@
 	<link rel="stylesheet" href="{markserv}templates/markserv.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/panda-syntax-dark.min.css">
 	<link rel="stylesheet" href="{markserv}icons/icons.css">
-		<script type="text/javascript" id="MathJax-script" async
+	<style id="ms-theme-override">
+/* markserv-theme:tokyo-night */
+:root {
+  --bg: #1A1B26;
+  --bg0_h: #16161E;
+  --bg1: #24283B;
+  --bg2: #2F354F;
+  --fg: #C0CAF5;
+  --gray: #565F89;
+  --red: #F7768E;
+  --green: #9ECE6A;
+  --yellow: #E0AF68;
+  --blue: #7AA2F7;
+  --purple: #BB9AF7;
+  --aqua: #7DCFFF;
+  --orange: #FF9E64;
+  --border: #2F354F;
+  --accent: #7AA2F7;
+  --sidebar-ascii-color: #D7DCE6;
+  --title-glow: rgba(122, 162, 247, 0.35);
+  --theme-ascii: " ______   ___   __  _  __ __   ___  \A|      | /   \\ |  |/ ]|  |  | /   \\ \A|      ||     ||  ' / |  |  ||     |\A|_|  |_||  O  ||    \\ |  ~  ||  O  |\A  |  |  |     ||     ||___, ||     |\A  |  |  |     ||  .  ||     ||     |\A  |__|   \\___/ |__|\\_||____/  \\___/\A\A ____   ____   ____  __ __  ______ \A|    \\ |    | /    ||  |  ||      |\A|  _  | |  | |   __||  |  ||      |\A|  |  | |  | |  |  ||  _  ||_|  |_|\A|  |  | |  | |  |_ ||  |  |  |  |  \A|  |  | |  | |     ||  |  |  |  |  \A|__|__||____||___,_||__|__|  |__|";
+}
+.hljs {
+  color: var(--fg);
+  background: var(--bg0_h);
+}
+.hljs-comment, .hljs-quote { color: var(--gray); }
+.hljs-keyword, .hljs-selector-tag, .hljs-subst { color: var(--red); }
+.hljs-title, .hljs-section, .hljs-attribute { color: var(--blue); }
+.hljs-string, .hljs-doctag, .hljs-literal, .hljs-regexp { color: var(--green); }
+.hljs-number, .hljs-symbol, .hljs-bullet, .hljs-built_in, .hljs-builtin-name { color: var(--orange); }
+.hljs-meta, .hljs-type, .hljs-class .hljs-title { color: var(--yellow); }
+.hljs-emphasis { color: var(--aqua); }
+.hljs-strong { color: var(--purple); }
+
+</style>
+	<script>
+	window.MathJax = {
+		tex: {
+			inlineMath: [["\\(", "\\)"]],
+			displayMath: [["\\[", "\\]"]],
+			processEscapes: true,
+			tags: "ams"
+		},
+		chtml: {
+			matchFontHeight: false,
+			scale: 1
+		},
+		options: {
+			skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+			ignoreHtmlClass: "no-mathjax"
+		}
+	};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
 	      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
         </script>
 	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -96,7 +150,7 @@
 			</div>
 			<h2 class="sidebar-root-stem">tests</h2>
 			<div class="sidebar-root-switcher">
-				<a class="sidebar-root-home-link" href="http://localhost:PORT/">Back To Hub</a>
+				<a class="sidebar-root-home-link" href="http://localhost:58508/">Back To Hub</a>
 			</div>
 			<div class="sidebar-mode-toggle" id="sidebar-mode-toggle" role="group" aria-label="Sidebar mode">
 				<button type="button" class="sidebar-mode-button" id="sidebar-mode-tree" aria-pressed="true">
@@ -183,6 +237,24 @@
 					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
 						<a href="/syntax-highlighting.md">syntax-highlighting.md</a>
 					</li>
+					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
+						<a href="/slugify-header-links.md">slugify-header-links.md</a>
+					</li>
+					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
+						<a href="/mathjax.md">mathjax.md</a>
+					</li>
+					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
+						<a href="/markserv-cli-readme/README.md">markserv-cli-readme/README.md</a>
+					</li>
+					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
+						<a href="/links.md">links.md</a>
+					</li>
+					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
+						<a href="/emojis.md">emojis.md</a>
+					</li>
+					<li class="sidebar-recent-item  ms-file-markdown" data-ms-file-type="markdown">
+						<a href="/Linked-Markdown-Example.md">Linked-Markdown-Example.md</a>
+					</li>
 				</ul>
 			</div>
 			<pre class="sidebar-theme-ascii" id="sidebar-theme-ascii" aria-hidden="true"></pre>
@@ -202,7 +274,10 @@
 	<h1 id="implant-file" data-ms-section-index="0">Implant File</h1>
 <p data-ms-section-index="1">YOU TOO SHALL PASS</p>
 
-	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: N/A</sup></footer>
+	<footer><sup><hr> Served by <a href="https://www.npmjs.com/package/markserv">MarkServ</a> | PID: 28103</sup></footer>
+	<div class="ms-copy-all-container">
+		<button type="button" class="ms-copy-all-button" id="ms-copy-all" aria-label="Copy all content as text">Copy All</button>
+	</div>
 	<div class="ms-mobile-tree-nav" id="ms-mobile-tree-nav" aria-label="Tree navigation">
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-prev" aria-label="Previous page in tree">←</button>
 		<button type="button" class="ms-mobile-tree-nav-button" id="ms-mobile-tree-next" aria-label="Next page in tree">→</button>
@@ -222,7 +297,7 @@
 		<p class="ms-editor-status" id="ms-mobile-status" aria-live="polite"></p>
 	</div>
 </div>
-<script id="ms-edit-data" type="application/json">{"filePath":"/implant-file.render-fixture.md","mtimeMs":0,"documentMarkdown":"# Implant File\n\n{file: implant-file.implanted-fixture.txt}","sections":[{"index":0,"startLine":0,"endLine":1,"rawMarkdown":"# Implant File"},{"index":1,"startLine":2,"endLine":3,"rawMarkdown":"{file: implant-file.implanted-fixture.txt}"}]}</script>
+<script id="ms-edit-data" type="application/json">{"filePath":"/implant-file.render-fixture.md","mtimeMs":1771770676096.3872,"documentMarkdown":"# Implant File\n\n{file: implant-file.implanted-fixture.txt}","sections":[{"index":0,"startLine":0,"endLine":1,"rawMarkdown":"# Implant File"},{"index":1,"startLine":2,"endLine":3,"rawMarkdown":"{file: implant-file.implanted-fixture.txt}"}]}</script>
 <script>
 	const menuToggle = document.getElementById('menu-toggle');
 	const sidebar = document.getElementById('sidebar');
@@ -237,6 +312,7 @@
 	const mobileTreeNav = document.getElementById("ms-mobile-tree-nav");
 	const mobileTreePrevButton = document.getElementById("ms-mobile-tree-prev");
 	const mobileTreeNextButton = document.getElementById("ms-mobile-tree-next");
+	const copyAllButton = document.getElementById("ms-copy-all");
 	const TREE_NAV_ITEM_SELECTOR = ".nav-tree summary, .nav-tree li.isfile > a";
 	const RECENT_NAV_ITEM_SELECTOR = ".sidebar-recent-list a";
 	const SIDEBAR_MODE_TREE = "tree";
@@ -872,6 +948,57 @@
 			navigateTreeOnMobile(1);
 		});
 		updateMobileTreeNavButtons();
+	}
+
+	if (copyAllButton) {
+		const fallbackCopyText = (text) => {
+			const textarea = document.createElement("textarea");
+			textarea.value = text;
+			textarea.setAttribute("readonly", "");
+			textarea.style.position = "absolute";
+			textarea.style.left = "-9999px";
+			textarea.style.top = (window.pageYOffset || document.documentElement.scrollTop) + "px";
+			document.body.appendChild(textarea);
+			textarea.focus();
+			textarea.select();
+			textarea.setSelectionRange(0, text.length);
+			const result = document.execCommand("copy");
+			document.body.removeChild(textarea);
+			return result;
+		};
+
+		const getContentText = () => {
+			const articleEl = document.querySelector("article.markdown-body");
+			if (!articleEl) return document.body.innerText.trim();
+			const clone = articleEl.cloneNode(true);
+			clone.querySelectorAll(
+				"footer, .ms-mobile-tree-nav, .ms-copy-all-container, .menu-toggle, .ms-edit-toggle, .ms-desktop-editor"
+			).forEach(el => el.remove());
+			return clone.innerText.trim();
+		};
+
+		copyAllButton.addEventListener("click", async () => {
+			const text = getContentText();
+			let success = false;
+
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				try {
+					await navigator.clipboard.writeText(text);
+					success = true;
+				} catch (err) {
+					success = fallbackCopyText(text);
+				}
+			} else {
+				success = fallbackCopyText(text);
+			}
+
+			copyAllButton.textContent = success ? "Copied!" : "Failed";
+			copyAllButton.classList.toggle("ms-copied", success);
+			setTimeout(() => {
+				copyAllButton.textContent = "Copy All";
+				copyAllButton.classList.remove("ms-copied");
+			}, 2000);
+		});
 	}
 
 	if (menuToggle && sidebar && sidebarOverlay) {

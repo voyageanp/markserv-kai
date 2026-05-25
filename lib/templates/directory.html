@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{title}}</title>
     <meta charset="utf-8" />
@@ -90,6 +90,7 @@
               </li>
               {{/each}}
             </ul>
+            <button type="button" class="sidebar-recent-more" id="sidebar-recent-more" hidden></button>
             {{else}}
             <p class="sidebar-recent-empty">No markdown files found.</p>
             {{/if}}
@@ -128,6 +129,9 @@
       const sidebarNotebookOnButton = document.getElementById('sidebar-notebook-on');
       const sidebarPanelTree = document.getElementById('sidebar-panel-tree');
       const sidebarPanelRecent = document.getElementById('sidebar-panel-recent');
+      const sidebarRecentMoreButton = document.getElementById('sidebar-recent-more');
+      const RECENT_PAGE_SIZE = 10;
+      let recentVisibleCount = RECENT_PAGE_SIZE;
       const TREE_NAV_ITEM_SELECTOR = '.nav-tree summary, .nav-tree li.isfile > a';
       const RECENT_NAV_ITEM_SELECTOR = '.sidebar-recent-list a';
       const SIDEBAR_MODE_TREE = 'tree';
@@ -156,6 +160,30 @@
         currentItem: null,
       };
       const mainArticle = document.querySelector('article.markdown-body');
+
+      const updateRecentPagination = () => {
+        if (!sidebarPanelRecent) {
+          return;
+        }
+
+        const items = [...sidebarPanelRecent.querySelectorAll('.sidebar-recent-item')];
+        const total = items.length;
+
+        items.forEach((item, i) => {
+          item.hidden = i >= recentVisibleCount;
+        });
+
+        if (sidebarRecentMoreButton) {
+          const remaining = total - recentVisibleCount;
+          if (remaining <= 0) {
+            sidebarRecentMoreButton.hidden = true;
+          } else {
+            sidebarRecentMoreButton.hidden = false;
+            const next = Math.min(remaining, RECENT_PAGE_SIZE);
+            sidebarRecentMoreButton.textContent = `Show ${next} more`;
+          }
+        }
+      };
 
       const decodeCssString = (rawValue) => {
         if (!rawValue) {
@@ -734,6 +762,20 @@
         });
       }
 
+      if (sidebarRecentMoreButton) {
+        sidebarRecentMoreButton.addEventListener('click', () => {
+          recentVisibleCount += RECENT_PAGE_SIZE;
+          updateRecentPagination();
+          if (sidebarThemeAscii) {
+            sidebarThemeAscii.hidden = true;
+          }
+          if (navState.focusMode) {
+            refreshNavItems(false);
+          }
+        });
+      }
+
+      updateRecentPagination();
       applyNotebookMode(readStoredNotebookMode(), false);
       applySidebarMode(readStoredSidebarMode(), false);
 
