@@ -85,7 +85,7 @@
             {{#if hasRecentEntries}}
             <ul class="sidebar-recent-list">
               {{#each recentEntries}}
-              <li class="sidebar-recent-item {{#if isCurrent}}current{{/if}} ms-file-{{fileType}}" data-ms-file-type="{{fileType}}">
+              <li class="sidebar-recent-item {{#if isCurrent}}current{{/if}} ms-file-{{fileType}}" data-ms-file-type="{{fileType}}" data-mtime="{{mtimeMs}}">
                 <a href="{{href}}">{{path}}</a>
               </li>
               {{/each}}
@@ -160,6 +160,40 @@
         currentItem: null,
       };
       const mainArticle = document.querySelector('article.markdown-body');
+
+      const formatRelativeTime = (mtimeMs) => {
+        const diffMs = Date.now() - mtimeMs;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return 'today';
+        if (diffDays === 1) return '1d ago';
+        if (diffDays < 60) return `${diffDays}d ago`;
+        const date = new Date(mtimeMs);
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        return `${month} ${date.getDate()}`;
+      };
+
+      const applyRecentRelativeTimes = () => {
+        if (!sidebarPanelRecent) {
+          return;
+        }
+
+        sidebarPanelRecent.querySelectorAll('.sidebar-recent-item[data-mtime]').forEach((item) => {
+          const mtimeMs = parseFloat(item.dataset.mtime);
+          if (!Number.isFinite(mtimeMs) || mtimeMs <= 0) {
+            return;
+          }
+
+          const link = item.querySelector('a');
+          if (!link || item.querySelector('.sidebar-recent-meta')) {
+            return;
+          }
+
+          const meta = document.createElement('span');
+          meta.className = 'sidebar-recent-meta';
+          meta.textContent = `(${formatRelativeTime(mtimeMs)})`;
+          link.after(meta);
+        });
+      };
 
       const updateRecentPagination = () => {
         if (!sidebarPanelRecent) {
@@ -775,6 +809,7 @@
         });
       }
 
+      applyRecentRelativeTimes();
       updateRecentPagination();
       applyNotebookMode(readStoredNotebookMode(), false);
       applySidebarMode(readStoredSidebarMode(), false);

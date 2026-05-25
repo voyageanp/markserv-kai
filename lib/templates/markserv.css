@@ -834,6 +834,14 @@ a.button.back {
   font-size: 12px;
 }
 
+.sidebar-recent-meta {
+  display: block;
+  color: var(--gray);
+  font-size: 10px;
+  margin-top: 1px;
+  line-height: 1.3;
+}
+
 .sidebar-recent-more {
   display: block;
   width: 100%;
@@ -1054,6 +1062,16 @@ body .markdown-body {
 
   .sidebar.open {
     left: 0; /* Slide in */
+  }
+
+  .sidebar .sidebar-recent-list,
+  .sidebar .sidebar-recent-list a,
+  .sidebar .sidebar-recent-list li {
+    font-size: 15px;
+  }
+
+  .sidebar-recent-meta {
+    font-size: 12px;
   }
 
   .sidebar-overlay.open {
