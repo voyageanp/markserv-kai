@@ -190,7 +190,7 @@
 
           const meta = document.createElement('span');
           meta.className = 'sidebar-recent-meta';
-          meta.textContent = `(${formatRelativeTime(mtimeMs)})`;
+          meta.textContent = ` - ${formatRelativeTime(mtimeMs)}`;
           link.after(meta);
         });
       };
@@ -204,7 +204,7 @@
         const total = items.length;
 
         items.forEach((item, i) => {
-          item.hidden = i >= recentVisibleCount;
+          item.classList.toggle('sidebar-recent-hidden', i >= recentVisibleCount);
         });
 
         if (sidebarRecentMoreButton) {
@@ -324,7 +324,10 @@
         notebookMode !== SIDEBAR_NOTEBOOK_MODE_ON && isNotebookSidebarItem(element);
 
       const isHiddenInSidebar = (element) =>
-        element instanceof HTMLElement && element.closest('[hidden]') !== null;
+        element instanceof HTMLElement && (
+          element.closest('[hidden]') !== null ||
+          element.closest('.sidebar-recent-hidden') !== null
+        );
 
       const isSelectableSidebarElement = (element) => (
         element instanceof HTMLElement &&

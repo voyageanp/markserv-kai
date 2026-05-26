@@ -816,7 +816,6 @@ a.button.back {
   color: var(--fg);
   word-break: break-all;
   overflow-wrap: anywhere;
-  display: block;
 }
 
 .sidebar-recent-item a:hover {
@@ -835,11 +834,12 @@ a.button.back {
 }
 
 .sidebar-recent-meta {
-  display: block;
   color: var(--gray);
   font-size: 10px;
-  margin-top: 1px;
-  line-height: 1.3;
+}
+
+.sidebar-recent-hidden {
+  display: none !important;
 }
 
 .sidebar-recent-more {
@@ -1067,11 +1067,11 @@ body .markdown-body {
   .sidebar .sidebar-recent-list,
   .sidebar .sidebar-recent-list a,
   .sidebar .sidebar-recent-list li {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .sidebar-recent-meta {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .sidebar-overlay.open {
