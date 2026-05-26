@@ -55,7 +55,8 @@ test.cb("start service and get text file", t => {
 				}
 
 				// Write expected:
-				// fs.writeFileSync(path.join(__dirname, 'implant-file.expected.html'), body)
+				// Write expected:
+				// fs.writeFileSync(path.join(__dirname, "implant-file.expected.html"), body);
 
 				const normalizedBody = normalizeDynamicFields(body);
 				const normalizedExpected = normalizeDynamicFields(expected);

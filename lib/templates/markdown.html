@@ -143,11 +143,12 @@
 				{{#if hasRecentEntries}}
 				<ul class="sidebar-recent-list">
 					{{#each recentEntries}}
-					<li class="sidebar-recent-item {{#if isCurrent}}current{{/if}} ms-file-{{fileType}}" data-ms-file-type="{{fileType}}">
+					<li class="sidebar-recent-item {{#if isCurrent}}current{{/if}} ms-file-{{fileType}}" data-ms-file-type="{{fileType}}" data-mtime="{{mtimeMs}}">
 						<a href="{{href}}">{{path}}</a>
 					</li>
 					{{/each}}
 				</ul>
+				<button type="button" class="sidebar-recent-more" id="sidebar-recent-more" hidden></button>
 				{{else}}
 				<p class="sidebar-recent-empty">No markdown files found.</p>
 				{{/if}}
@@ -214,6 +215,9 @@
 	const sidebarNotebookOnButton = document.getElementById("sidebar-notebook-on");
 	const sidebarPanelTree = document.getElementById("sidebar-panel-tree");
 	const sidebarPanelRecent = document.getElementById("sidebar-panel-recent");
+	const sidebarRecentMoreButton = document.getElementById("sidebar-recent-more");
+	const RECENT_PAGE_SIZE = 10;
+	let recentVisibleCount = RECENT_PAGE_SIZE;
 	const mobileTreeNav = document.getElementById("ms-mobile-tree-nav");
 	const mobileTreePrevButton = document.getElementById("ms-mobile-tree-prev");
 	const mobileTreeNextButton = document.getElementById("ms-mobile-tree-next");
@@ -249,6 +253,64 @@
 		items: [],
 		activeIndex: -1,
 		currentItem: null,
+	};
+
+	const formatRelativeTime = (mtimeMs) => {
+		const diffMs = Date.now() - mtimeMs;
+		const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+		if (diffDays === 0) return "today";
+		if (diffDays === 1) return "1d ago";
+		if (diffDays < 60) return `${diffDays}d ago`;
+		const date = new Date(mtimeMs);
+		const month = date.toLocaleString("en-US", { month: "short" });
+		return `${month} ${date.getDate()}`;
+	};
+
+	const applyRecentRelativeTimes = () => {
+		if (!sidebarPanelRecent) {
+			return;
+		}
+
+		sidebarPanelRecent.querySelectorAll(".sidebar-recent-item[data-mtime]").forEach((item) => {
+			const mtimeMs = parseFloat(item.dataset.mtime);
+			if (!Number.isFinite(mtimeMs) || mtimeMs <= 0) {
+				return;
+			}
+
+			const link = item.querySelector("a");
+			if (!link || item.querySelector(".sidebar-recent-meta")) {
+				return;
+			}
+
+			const meta = document.createElement("span");
+			meta.className = "sidebar-recent-meta";
+			meta.textContent = ` - ${formatRelativeTime(mtimeMs)}`;
+			link.after(meta);
+		});
+	};
+
+	const updateRecentPagination = () => {
+		if (!sidebarPanelRecent) {
+			return;
+		}
+
+		const items = [...sidebarPanelRecent.querySelectorAll(".sidebar-recent-item")];
+		const total = items.length;
+
+		items.forEach((item, i) => {
+			item.classList.toggle("sidebar-recent-hidden", i >= recentVisibleCount);
+		});
+
+		if (sidebarRecentMoreButton) {
+			const remaining = total - recentVisibleCount;
+			if (remaining <= 0) {
+				sidebarRecentMoreButton.hidden = true;
+			} else {
+				sidebarRecentMoreButton.hidden = false;
+				const next = Math.min(remaining, RECENT_PAGE_SIZE);
+				sidebarRecentMoreButton.textContent = `Show ${next} more`;
+			}
+		}
 	};
 
 	const decodeCssString = (rawValue) => {
@@ -379,7 +441,10 @@
 		notebookMode !== SIDEBAR_NOTEBOOK_MODE_ON && isNotebookSidebarItem(element);
 
 	const isHiddenInSidebar = (element) =>
-		element instanceof HTMLElement && element.closest("[hidden]") !== null;
+		element instanceof HTMLElement && (
+			element.closest("[hidden]") !== null ||
+			element.closest(".sidebar-recent-hidden") !== null
+		);
 
 	const isSelectableSidebarElement = (element) => (
 		element instanceof HTMLElement &&
@@ -946,6 +1011,21 @@
 		});
 	}
 
+	if (sidebarRecentMoreButton) {
+		sidebarRecentMoreButton.addEventListener("click", () => {
+			recentVisibleCount += RECENT_PAGE_SIZE;
+			updateRecentPagination();
+			if (sidebarThemeAscii) {
+				sidebarThemeAscii.hidden = true;
+			}
+			if (navState.focusMode) {
+				refreshNavItems(false);
+			}
+		});
+	}
+
+	applyRecentRelativeTimes();
+	updateRecentPagination();
 	applyNotebookMode(readStoredNotebookMode(), false);
 	applySidebarMode(readStoredSidebarMode(), false);
 
