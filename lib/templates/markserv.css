@@ -926,14 +926,16 @@ body .markdown-body {
 /* Menu Toggle Button (Visible only on mobile) */
 .menu-toggle {
   display: none;
-  background: none;
-  border: none;
+  background-color: var(--bg1);
+  border: 1px solid var(--gray);
   color: var(--fg);
   font-size: 24px;
   cursor: pointer;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
   z-index: 1000;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .ms-mobile-tree-nav {
@@ -1037,7 +1039,10 @@ body .markdown-body {
 /* Mobile specific styling */
 @media screen and (max-width: 768px) {
   .menu-toggle {
-    display: block; /* Show hamburger menu */
+    display: block;
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top, 0px) + 6px);
+    left: max(10px, env(safe-area-inset-left, 0px) + 6px);
   }
 
   .ms-mobile-tree-nav {
@@ -1051,6 +1056,11 @@ body .markdown-body {
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
     padding-left: max(15px, env(safe-area-inset-left, 0px));
     padding-right: max(15px, env(safe-area-inset-right, 0px));
+  }
+
+  /* Reserve space at top for the fixed hamburger button */
+  body .markdown-body:has(#menu-toggle) {
+    padding-top: max(62px, env(safe-area-inset-top, 0px) + 52px);
   }
 
   .sidebar {
