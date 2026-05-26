@@ -812,6 +812,7 @@ a.button.back {
 }
 
 .sidebar-recent-item a {
+  display: inline;
   text-decoration: none;
   color: var(--fg);
   word-break: break-all;
