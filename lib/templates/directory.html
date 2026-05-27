@@ -760,10 +760,16 @@
       };
       
       if (menuToggle && sidebar && sidebarOverlay) {
+        const syncMenuTogglePosition = () => {
+          menuToggle.classList.toggle('sidebar-is-open', sidebar.classList.contains('open'));
+        };
+
         const toggleMenu = () => {
           sidebar.classList.toggle('open');
           sidebarOverlay.classList.toggle('open');
+          syncMenuTogglePosition();
         };
+
         menuToggle.addEventListener('click', toggleMenu);
         sidebarOverlay.addEventListener('click', toggleMenu);
         // Close sidebar when clicking a link inside it on mobile
@@ -771,6 +777,7 @@
           if (e.target.tagName === 'A' && window.innerWidth <= 768) {
             sidebar.classList.remove('open');
             sidebarOverlay.classList.remove('open');
+            syncMenuTogglePosition();
           }
         });
       }

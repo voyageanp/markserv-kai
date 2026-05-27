@@ -1114,6 +1114,11 @@ body .markdown-body {
     float: none;
     line-height: 24px;
   }
+
+  /* Shift hamburger to the right of the sidebar when it is open */
+  .menu-toggle.sidebar-is-open {
+    left: calc(250px + 10px);
+  }
 }
 
 .ms-desktop-editor {
