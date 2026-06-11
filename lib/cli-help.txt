@@ -4,6 +4,9 @@ $ markserv root add <dir> [--slug <slug>] [--title <title>] [--theme <theme-id>]
 $ markserv root remove <slug>
 $ markserv root list
 $ markserv root open <slug>
+$ markserv autostart on       (enable auto-start on login, macOS only)
+$ markserv autostart off      (disable auto-start)
+$ markserv autostart status   (show auto-start status)
 $ markserv <file/dir>
 $ readme (serve closest README.md file)
 
